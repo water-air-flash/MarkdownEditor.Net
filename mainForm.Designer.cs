@@ -42,6 +42,7 @@
             this.@__appButton = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.@__webBrowser = new System.Windows.Forms.WebBrowser();
+            this.@__saveButton = new System.Windows.Forms.ToolStripSplitButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -131,6 +132,7 @@
             // __textBox
             // 
             this.@__textBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.@__textBox.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.@__textBox.Location = new System.Drawing.Point(0, 50);
             this.@__textBox.Multiline = true;
             this.@__textBox.Name = "__textBox";
@@ -150,7 +152,8 @@
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.@__appButton});
+            this.@__appButton,
+            this.@__saveButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(509, 25);
@@ -183,6 +186,16 @@
             this.@__webBrowser.Name = "__webBrowser";
             this.@__webBrowser.Size = new System.Drawing.Size(382, 500);
             this.@__webBrowser.TabIndex = 0;
+            // 
+            // __saveButton
+            // 
+            this.@__saveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.@__saveButton.Image = ((System.Drawing.Image)(resources.GetObject("__saveButton.Image")));
+            this.@__saveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.@__saveButton.Name = "__saveButton";
+            this.@__saveButton.Size = new System.Drawing.Size(32, 22);
+            this.@__saveButton.Text = "toolStripSplitButton1";
+            this.@__saveButton.ButtonClick += new System.EventHandler(this.@__saveButton_ButtonClick);
             // 
             // __mainForm
             // 
@@ -222,6 +235,7 @@
         private System.Windows.Forms.ToolStripButton __appButton;
         private System.Windows.Forms.ContextMenuStrip __contextMenu1;
         private System.Windows.Forms.ToolStripMenuItem createToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSplitButton __saveButton;
     }
 }
 

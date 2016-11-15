@@ -135,5 +135,10 @@ namespace MarkdownEditor.Net
 
             }
         }
+
+        private void __saveButton_ButtonClick(object sender, EventArgs e)
+        {
+
+        }
     }
 }
