@@ -29,7 +29,7 @@ namespace MarkdownEditor.Net
             NativeMethods.CoInternetSetFeatureEnabled(NativeMethods.FEATURE_DISABLE_NAVIGATION_SOUNDS, NativeMethods.SET_FEATURE_ON_PROCESS, true);
             __webBrowser.ScriptErrorsSuppressed = true;
             #endregion
-
+         
         }
         #endregion
 

@@ -36,6 +36,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,13 +48,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\FileExtensions.cs" />
     <Compile Include="Extensions\FormExtensions.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="mainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="mainForm.Designer.cs">
+      <DependentUpon>mainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\FolderSelectDialog.cs" />
+    <Compile Include="Helpers\NativeMethods.cs" />
     <Compile Include="Markdig\Extensions\Abbreviations\Abbreviation.cs" />
     <Compile Include="Markdig\Extensions\Abbreviations\AbbreviationExtension.cs" />
     <Compile Include="Markdig\Extensions\Abbreviations\AbbreviationHelper.cs" />
@@ -280,8 +284,8 @@
     <Compile Include="Markdig\Syntax\ThematicBreakBlock.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="mainForm.resx">
+      <DependentUpon>mainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
