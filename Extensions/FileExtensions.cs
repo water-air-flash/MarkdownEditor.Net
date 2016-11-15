@@ -3,10 +3,17 @@ using System;
 using System.Text;
 
 
-namespace MarkdownEditor.Net.Extensions
+namespace MarkdownEditor.Net
 {
    public static class FileExtensions
     {
+        public static void CreateDirectoryIfNotExist(this string f)
+        {
+            if (!Directory.Exists(f))
+            {
+                Directory.CreateDirectory(f);
+            }
+        }
         public static String FileToString(this string fullName, bool isChineseEncoding = false)
         {
             var encoding = new UTF8Encoding(false);

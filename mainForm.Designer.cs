@@ -28,15 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(@__mainForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.@__textBox = new System.Windows.Forms.TextBox();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.@__webBrowser = new System.Windows.Forms.WebBrowser();
+            this.@__appButton = new System.Windows.Forms.ToolStripButton();
+            this.@__contextMenu1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -45,6 +49,7 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -92,7 +97,7 @@
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.textBox1);
+            this.splitContainer2.Panel1.Controls.Add(this.@__textBox);
             this.splitContainer2.Panel1.Controls.Add(this.toolStrip2);
             this.splitContainer2.Panel1.Controls.Add(this.toolStrip1);
             this.splitContainer2.Panel1.Controls.Add(this.statusStrip1);
@@ -104,15 +109,16 @@
             this.splitContainer2.SplitterDistance = 454;
             this.splitContainer2.TabIndex = 0;
             // 
-            // textBox1
+            // __textBox
             // 
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(0, 50);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(454, 428);
-            this.textBox1.TabIndex = 3;
+            this.@__textBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.@__textBox.Location = new System.Drawing.Point(0, 50);
+            this.@__textBox.Multiline = true;
+            this.@__textBox.Name = "__textBox";
+            this.@__textBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.@__textBox.Size = new System.Drawing.Size(454, 428);
+            this.@__textBox.TabIndex = 3;
+            this.@__textBox.TextChanged += new System.EventHandler(this.@__textBox_TextChanged);
             // 
             // toolStrip2
             // 
@@ -124,6 +130,8 @@
             // 
             // toolStrip1
             // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.@__appButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(454, 25);
@@ -147,6 +155,21 @@
             this.@__webBrowser.Size = new System.Drawing.Size(340, 500);
             this.@__webBrowser.TabIndex = 0;
             // 
+            // __appButton
+            // 
+            this.@__appButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.@__appButton.Image = ((System.Drawing.Image)(resources.GetObject("__appButton.Image")));
+            this.@__appButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.@__appButton.Name = "__appButton";
+            this.@__appButton.Size = new System.Drawing.Size(36, 22);
+            this.@__appButton.Text = "App";
+            this.@__appButton.Click += new System.EventHandler(this.@__appButton_Click);
+            // 
+            // __contextMenu1
+            // 
+            this.@__contextMenu1.Name = "__contextMenu1";
+            this.@__contextMenu1.Size = new System.Drawing.Size(61, 4);
+            // 
             // __mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -164,6 +187,8 @@
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -174,11 +199,13 @@
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox __textBox;
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.WebBrowser __webBrowser;
+        private System.Windows.Forms.ToolStripButton __appButton;
+        private System.Windows.Forms.ContextMenuStrip __contextMenu1;
     }
 }
 

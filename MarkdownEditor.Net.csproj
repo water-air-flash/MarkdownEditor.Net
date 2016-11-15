@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Extensions\FileExtensions.cs" />
     <Compile Include="Extensions\FormExtensions.cs" />
+    <Compile Include="Helpers\FileSystemHelpers.cs" />
     <Compile Include="mainForm.cs">
       <SubType>Form</SubType>
     </Compile>
