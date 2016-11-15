@@ -24,7 +24,7 @@ namespace MarkdownEditor.Net
 
         string _currentKey;
         bool _previewEnable;
-        List<Dictionary<string, string>> _dic;
+        Dictionary<string, string> _dic;
         #endregion
 
         public __mainForm()
@@ -69,12 +69,16 @@ namespace MarkdownEditor.Net
         void RefreshListBox(string v)
         {
             __listBox.Items.Clear();
-             _dic=new JavaScriptSerializer().Deserialize <List<Dictionary<string, string>>>(v).OrderBy(i=>i.Keys.First()).ToList();
+            if (string.IsNullOrWhiteSpace(v)) return;
+            _dic = new JavaScriptSerializer().Deserialize<Dictionary<string, string>>(v);
+            
+                __listBox.Items.AddRange(_dic.Keys.OrderBy(i=>i).ToArray());
 
-            for (int i = 0; i < _dic.Count; i++)
-            {
-                __listBox.Items.Add(_dic[i].Keys.First());
-            }
+        }
+        void Reset()
+        {
+            _currentKey = "";
+            _dic = null;
 
         }
         #endregion
@@ -113,8 +117,22 @@ namespace MarkdownEditor.Net
 
             if (f.IsFile())
             {
+                Reset();
                 RefreshListBox(f.FileToString());
                 
+            }
+        }
+
+        private void __listBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (__listBox.SelectedIndex != -1)
+            {
+               
+                _currentKey = __listBox.SelectedItem.ToString();
+
+                this.Text = _currentKey;
+                __textBox.Text = _dic[_currentKey];
+
             }
         }
     }
