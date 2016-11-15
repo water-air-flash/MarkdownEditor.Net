@@ -43,6 +43,8 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.@__webBrowser = new System.Windows.Forms.WebBrowser();
             this.@__saveButton = new System.Windows.Forms.ToolStripSplitButton();
+            this.@__contextMenu2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.codeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -53,6 +55,7 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.@__contextMenu2.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -131,6 +134,7 @@
             // 
             // __textBox
             // 
+            this.@__textBox.ContextMenuStrip = this.@__contextMenu2;
             this.@__textBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.@__textBox.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.@__textBox.Location = new System.Drawing.Point(0, 50);
@@ -189,13 +193,27 @@
             // 
             // __saveButton
             // 
-            this.@__saveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.@__saveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.@__saveButton.Image = ((System.Drawing.Image)(resources.GetObject("__saveButton.Image")));
             this.@__saveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.@__saveButton.Name = "__saveButton";
-            this.@__saveButton.Size = new System.Drawing.Size(32, 22);
-            this.@__saveButton.Text = "toolStripSplitButton1";
+            this.@__saveButton.Size = new System.Drawing.Size(51, 22);
+            this.@__saveButton.Text = "Save";
             this.@__saveButton.ButtonClick += new System.EventHandler(this.@__saveButton_ButtonClick);
+            // 
+            // __contextMenu2
+            // 
+            this.@__contextMenu2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.codeToolStripMenuItem});
+            this.@__contextMenu2.Name = "contextMenuStrip1";
+            this.@__contextMenu2.Size = new System.Drawing.Size(153, 48);
+            // 
+            // codeToolStripMenuItem
+            // 
+            this.codeToolStripMenuItem.Name = "codeToolStripMenuItem";
+            this.codeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.codeToolStripMenuItem.Text = " Code";
+            this.codeToolStripMenuItem.Click += new System.EventHandler(this.codeToolStripMenuItem_Click);
             // 
             // __mainForm
             // 
@@ -217,6 +235,7 @@
             this.splitContainer2.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.@__contextMenu2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -236,6 +255,8 @@
         private System.Windows.Forms.ContextMenuStrip __contextMenu1;
         private System.Windows.Forms.ToolStripMenuItem createToolStripMenuItem;
         private System.Windows.Forms.ToolStripSplitButton __saveButton;
+        private System.Windows.Forms.ContextMenuStrip __contextMenu2;
+        private System.Windows.Forms.ToolStripMenuItem codeToolStripMenuItem;
     }
 }
 

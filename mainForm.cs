@@ -17,12 +17,12 @@ namespace MarkdownEditor.Net
     public partial class __mainForm : Form
     {
         #region Fields
-        const string _template = "<!DOCTYPE html>\n<html>\n<head>\n <title></title>\n <meta charset=\"utf-8\" />\n <link href=\"{0}\" rel=\"stylesheet\" />\n</head><body>\r\n\r\n\r\n";
+        readonly string _template;
         readonly string _appPath;
 
         MarkdownPipeline _pipeline;
 
-        string _currentKey;
+        string _currentKey=null;
         bool _previewEnable;
         Dictionary<string, string> _dic;
         #endregion
@@ -30,13 +30,58 @@ namespace MarkdownEditor.Net
         public __mainForm()
         {
             InitializeComponent();
+            _template =  string.Format("<!DOCTYPE html>\n<html>\n<head>\n <title></title>\n <meta charset=\"utf-8\" />\n <link href=\"{0}\" rel=\"stylesheet\" />\n</head><body>\r\n\r\n\r\n", "style.css".GetApplicationPath());
             _appPath = "datas".GetApplicationPath();
-            
+            _previewEnable = true;
             Initialize();
         }
 
 
         #region Methods
+
+        void UpdateStatus(string key)
+        {
+            _currentKey = key;
+            this.Text = key;
+
+        }
+        string Flush(string fullName)
+        {
+            var str = new JavaScriptSerializer().Serialize(_dic);
+            fullName.StringToFile(str);
+            return str;
+        }
+        void Save()
+        {
+            if (_currentKey != null)
+            {
+                if (!string.IsNullOrWhiteSpace(__fileBox.Text))
+                {
+                    var fileName = __fileBox.Text.GetValidFileName() + ".json";
+                    _dic[_currentKey] = __textBox.Text;
+                    RefreshListBox(Flush(_appPath.CombinePath(fileName)));
+
+                    UpdateStatus(_currentKey);
+                }
+            }
+            else
+            {
+                var key = __textBox.GetFirstNotEmptyLine();
+                
+                if (!string.IsNullOrWhiteSpace(__fileBox.Text )&& key != null)
+                {
+                    key = key.Trim().TrimStart(new char[] { '#', ' ' });
+                    var fileName = __fileBox.Text.GetValidFileName() + ".json";
+                    if (_dic == null)
+                        _dic = new Dictionary<string, string>();
+                    _dic.Add(key, __textBox.Text);
+
+                    RefreshListBox(Flush(_appPath.CombinePath(fileName)));
+                    UpdateStatus(key);
+                }
+            }
+          
+        }
         private void Initialize()
         {
            
@@ -77,7 +122,7 @@ namespace MarkdownEditor.Net
         }
         void Reset()
         {
-            _currentKey = "";
+            _currentKey = null;
             _dic = null;
 
         }
@@ -138,6 +183,16 @@ namespace MarkdownEditor.Net
 
         private void __saveButton_ButtonClick(object sender, EventArgs e)
         {
+            Save();
+        }
+
+        private void codeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(!string.IsNullOrWhiteSpace(__textBox.SelectedText)&&__textBox.SelectedText.IndexOf('\n')==-1)
+            __textBox.SelectedText = $" `{__textBox.SelectedText.Trim()}` ";
+            else
+                __textBox.SelectedText = $"\r\n\r\n```\r\n{__textBox.SelectedText.Trim()}\r\n```\r\n\r\n";
+
 
         }
     }

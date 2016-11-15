@@ -1,10 +1,21 @@
 ﻿
 using System.Windows.Forms;
 
-namespace MarkdownEditor.Net.Extensions
+namespace MarkdownEditor.Net
 {
     public static class FormExtensions
     {
+        public static string GetFirstNotEmptyLine(this TextBox textBox)
+        {
+
+            if (string.IsNullOrWhiteSpace(textBox.Text)) return null;
+            for (int i = 0; i < textBox.Lines.Length; i++)
+            {
+                if (!string.IsNullOrWhiteSpace(textBox.Lines[i]))
+                    return textBox.Lines[i];
+            }
+            return null;
+        }
         public static string GetCurrentLine(this TextBox textBox)
         {
             if (string.IsNullOrWhiteSpace(textBox.Text)) return null;
