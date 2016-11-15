@@ -1,0 +1,43 @@
+﻿
+using System.Windows.Forms;
+
+namespace MarkdownEditor.Net.Extensions
+{
+    public static class FormExtensions
+    {
+        public static string GetCurrentLine(this TextBox textBox)
+        {
+            if (string.IsNullOrWhiteSpace(textBox.Text)) return null;
+            var chs = textBox.Text.ToCharArray();
+            var start = textBox.SelectionStart;
+            var sf = 0;
+            var se = chs.Length;
+            var sfa = 0;
+            while (start-- > 0)
+            {
+                if (chs[start] == '\n')
+                {
+                    sf = start;
+                    break;
+                }
+            }
+            sfa = sf;
+            while (sfa++ < chs.Length - 1)
+            {
+                if (chs[sfa] == '\n')
+                {
+                    se = sfa;
+                    break;
+                }
+            }
+            return textBox.Text.Substring(sf, se - sf);
+        }
+        public static string GetSelectLine(this TextBox textbox)
+        {
+            if (string.IsNullOrWhiteSpace(textbox.SelectedText))
+                return textbox.GetCurrentLine();
+            else
+                return textbox.SelectedText;
+        }
+    }
+}
