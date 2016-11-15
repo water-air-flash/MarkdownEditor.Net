@@ -195,5 +195,25 @@ namespace MarkdownEditor.Net
 
 
         }
+
+        private void __newButton_ButtonClick(object sender, EventArgs e)
+        {
+            this.Text = null;
+            __textBox.Text = null;
+            _currentKey = null;
+        }
+
+        private void numberListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var index = 0;
+            var str = string.Join(Environment.NewLine,
+                 __textBox.SelectedText.Lines().Select((i) =>
+                 {
+                     index++;
+
+                     return index + ". " + i.Trim();
+                 }));
+            __textBox.SelectedText = $"\r\n\r\n{str}\r\n";
+        }
     }
 }

@@ -45,6 +45,8 @@
             this.@__saveButton = new System.Windows.Forms.ToolStripSplitButton();
             this.@__contextMenu2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.codeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.@__newButton = new System.Windows.Forms.ToolStripSplitButton();
+            this.numberListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -157,6 +159,7 @@
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.@__appButton,
+            this.@__newButton,
             this.@__saveButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
@@ -204,16 +207,35 @@
             // __contextMenu2
             // 
             this.@__contextMenu2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.codeToolStripMenuItem});
+            this.codeToolStripMenuItem,
+            this.numberListToolStripMenuItem});
             this.@__contextMenu2.Name = "contextMenuStrip1";
-            this.@__contextMenu2.Size = new System.Drawing.Size(153, 48);
+            this.@__contextMenu2.Size = new System.Drawing.Size(153, 70);
             // 
             // codeToolStripMenuItem
             // 
             this.codeToolStripMenuItem.Name = "codeToolStripMenuItem";
+            this.codeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
             this.codeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.codeToolStripMenuItem.Text = " Code";
+            this.codeToolStripMenuItem.Text = "Code";
             this.codeToolStripMenuItem.Click += new System.EventHandler(this.codeToolStripMenuItem_Click);
+            // 
+            // __newButton
+            // 
+            this.@__newButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.@__newButton.Image = ((System.Drawing.Image)(resources.GetObject("__newButton.Image")));
+            this.@__newButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.@__newButton.Name = "__newButton";
+            this.@__newButton.Size = new System.Drawing.Size(50, 22);
+            this.@__newButton.Text = "New";
+            this.@__newButton.ButtonClick += new System.EventHandler(this.@__newButton_ButtonClick);
+            // 
+            // numberListToolStripMenuItem
+            // 
+            this.numberListToolStripMenuItem.Name = "numberListToolStripMenuItem";
+            this.numberListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.numberListToolStripMenuItem.Text = "Number List";
+            this.numberListToolStripMenuItem.Click += new System.EventHandler(this.numberListToolStripMenuItem_Click);
             // 
             // __mainForm
             // 
@@ -257,6 +279,8 @@
         private System.Windows.Forms.ToolStripSplitButton __saveButton;
         private System.Windows.Forms.ContextMenuStrip __contextMenu2;
         private System.Windows.Forms.ToolStripMenuItem codeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSplitButton __newButton;
+        private System.Windows.Forms.ToolStripMenuItem numberListToolStripMenuItem;
     }
 }
 
