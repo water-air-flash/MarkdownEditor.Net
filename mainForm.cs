@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,16 +18,20 @@ namespace MarkdownEditor.Net
     {
         #region Fields
         const string _template = "<!DOCTYPE html>\n<html>\n<head>\n <title></title>\n <meta charset=\"utf-8\" />\n <link href=\"{0}\" rel=\"stylesheet\" />\n</head><body>\r\n\r\n\r\n";
+        readonly string _appPath;
 
         MarkdownPipeline _pipeline;
 
         string _currentKey;
         bool _previewEnable;
+        List<Dictionary<string, string>> _dic;
         #endregion
 
         public __mainForm()
         {
             InitializeComponent();
+            _appPath = "datas".GetApplicationPath();
+            
             Initialize();
         }
 
@@ -34,9 +39,9 @@ namespace MarkdownEditor.Net
         #region Methods
         private void Initialize()
         {
-
-            "datas".GetApplicationPath().CreateDirectoryIfNotExist();
-
+           
+            _appPath.CreateDirectoryIfNotExist();
+            RefreshFileBox();
             #region MarkDig
 
             _pipeline = new MarkdownPipelineBuilder().UseAutoLinks().UsePipeTables().UseAutoIdentifiers().Build();
@@ -54,6 +59,24 @@ namespace MarkdownEditor.Net
 
             return _template + Markdig.Markdown.ToHtml(v, _pipeline) + "\r\n\r\n\r\n</body></html>";
         }
+
+        void RefreshFileBox()
+        {
+            __fileBox.Items.Clear();
+            __fileBox.Items.AddRange(_appPath.GetFiles().Select(i => i.GetFileNameWithoutExtension()).ToArray());
+            
+        }
+        void RefreshListBox(string v)
+        {
+            __listBox.Items.Clear();
+             _dic=new JavaScriptSerializer().Deserialize <List<Dictionary<string, string>>>(v).OrderBy(i=>i.Keys.First()).ToList();
+
+            for (int i = 0; i < _dic.Count; i++)
+            {
+                __listBox.Items.Add(_dic[i].Keys.First());
+            }
+
+        }
         #endregion
 
         private void __textBox_TextChanged(object sender, EventArgs e)
@@ -69,6 +92,30 @@ namespace MarkdownEditor.Net
         private void __appButton_Click(object sender, EventArgs e)
         {
             FileSystemHelpers.OpenApplicationDirectory();
+        }
+
+        #region ContextMenu
+        private void createToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var fileName = __fileBox.Text.GetValidFileName().Trim();
+            if (fileName.Length > 0)
+            {
+                _appPath.CombinePath(fileName + ".json").CreateEmptyFile();
+                RefreshFileBox();
+            }
+        }
+        #endregion
+
+        private void __fileBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            var f = _appPath.CombinePath(__fileBox.Text + ".json");
+
+            if (f.IsFile())
+            {
+                RefreshListBox(f.FileToString());
+                
+            }
         }
     }
 }

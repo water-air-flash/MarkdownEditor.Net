@@ -7,6 +7,22 @@ namespace MarkdownEditor.Net
 {
    public static class FileExtensions
     {
+        public static void CreateEmptyFile(this string fileName)
+        {
+            File.Create(fileName).Close();
+        }
+        public static string CombinePath(this string dir, string f)
+        {
+            return Path.Combine(dir, f);
+        }
+        public static string GetFileNameWithoutExtension(this string v)
+        {
+            return Path.GetFileNameWithoutExtension(v);
+        }
+        public static string[] GetFiles(this string dir, string extFilter = "*.json")
+        {
+            return Directory.GetFiles(dir, extFilter);
+        }
         public static void CreateDirectoryIfNotExist(this string f)
         {
             if (!Directory.Exists(f))
@@ -46,6 +62,14 @@ namespace MarkdownEditor.Net
         public static string GetApplicationPath(this string fileName)
         {
             return $"{Path.GetDirectoryName(Environment.GetCommandLineArgs()[0])}\\{fileName}";
+        }
+        public static bool IsDirectory(this string directory)
+        {
+            return Directory.Exists(directory);
+        }
+        public static bool IsFile(this string fullName)
+        {
+            return File.Exists(fullName);
         }
     }
 }

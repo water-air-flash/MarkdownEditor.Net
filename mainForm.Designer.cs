@@ -31,16 +31,17 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(@__mainForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.@__listBox = new System.Windows.Forms.ListBox();
+            this.@__fileBox = new System.Windows.Forms.ComboBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.@__textBox = new System.Windows.Forms.TextBox();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.@__appButton = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.@__webBrowser = new System.Windows.Forms.WebBrowser();
-            this.@__appButton = new System.Windows.Forms.ToolStripButton();
             this.@__contextMenu1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.createToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -50,6 +51,7 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.@__contextMenu1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -60,8 +62,8 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.listBox1);
-            this.splitContainer1.Panel1.Controls.Add(this.comboBox1);
+            this.splitContainer1.Panel1.Controls.Add(this.@__listBox);
+            this.splitContainer1.Panel1.Controls.Add(this.@__fileBox);
             // 
             // splitContainer1.Panel2
             // 
@@ -70,24 +72,26 @@
             this.splitContainer1.SplitterDistance = 304;
             this.splitContainer1.TabIndex = 0;
             // 
-            // listBox1
+            // __listBox
             // 
-            this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 12;
-            this.listBox1.Location = new System.Drawing.Point(0, 20);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(304, 480);
-            this.listBox1.TabIndex = 1;
+            this.@__listBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.@__listBox.FormattingEnabled = true;
+            this.@__listBox.ItemHeight = 12;
+            this.@__listBox.Location = new System.Drawing.Point(0, 20);
+            this.@__listBox.Name = "__listBox";
+            this.@__listBox.Size = new System.Drawing.Size(304, 480);
+            this.@__listBox.TabIndex = 1;
             // 
-            // comboBox1
+            // __fileBox
             // 
-            this.comboBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(0, 0);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(304, 20);
-            this.comboBox1.TabIndex = 0;
+            this.@__fileBox.ContextMenuStrip = this.@__contextMenu1;
+            this.@__fileBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.@__fileBox.FormattingEnabled = true;
+            this.@__fileBox.Location = new System.Drawing.Point(0, 0);
+            this.@__fileBox.Name = "__fileBox";
+            this.@__fileBox.Size = new System.Drawing.Size(304, 20);
+            this.@__fileBox.TabIndex = 0;
+            this.@__fileBox.SelectedIndexChanged += new System.EventHandler(this.@__fileBox_SelectedIndexChanged);
             // 
             // splitContainer2
             // 
@@ -138,6 +142,16 @@
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
+            // __appButton
+            // 
+            this.@__appButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.@__appButton.Image = ((System.Drawing.Image)(resources.GetObject("__appButton.Image")));
+            this.@__appButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.@__appButton.Name = "__appButton";
+            this.@__appButton.Size = new System.Drawing.Size(36, 22);
+            this.@__appButton.Text = "App";
+            this.@__appButton.Click += new System.EventHandler(this.@__appButton_Click);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Location = new System.Drawing.Point(0, 478);
@@ -155,20 +169,19 @@
             this.@__webBrowser.Size = new System.Drawing.Size(340, 500);
             this.@__webBrowser.TabIndex = 0;
             // 
-            // __appButton
-            // 
-            this.@__appButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.@__appButton.Image = ((System.Drawing.Image)(resources.GetObject("__appButton.Image")));
-            this.@__appButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.@__appButton.Name = "__appButton";
-            this.@__appButton.Size = new System.Drawing.Size(36, 22);
-            this.@__appButton.Text = "App";
-            this.@__appButton.Click += new System.EventHandler(this.@__appButton_Click);
-            // 
             // __contextMenu1
             // 
+            this.@__contextMenu1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.createToolStripMenuItem});
             this.@__contextMenu1.Name = "__contextMenu1";
-            this.@__contextMenu1.Size = new System.Drawing.Size(61, 4);
+            this.@__contextMenu1.Size = new System.Drawing.Size(115, 26);
+            // 
+            // createToolStripMenuItem
+            // 
+            this.createToolStripMenuItem.Name = "createToolStripMenuItem";
+            this.createToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.createToolStripMenuItem.Text = "Create";
+            this.createToolStripMenuItem.Click += new System.EventHandler(this.createToolStripMenuItem_Click);
             // 
             // __mainForm
             // 
@@ -189,6 +202,7 @@
             this.splitContainer2.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.@__contextMenu1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -196,8 +210,8 @@
         #endregion
 
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ListBox __listBox;
+        private System.Windows.Forms.ComboBox __fileBox;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.TextBox __textBox;
         private System.Windows.Forms.ToolStrip toolStrip2;
@@ -206,6 +220,7 @@
         private System.Windows.Forms.WebBrowser __webBrowser;
         private System.Windows.Forms.ToolStripButton __appButton;
         private System.Windows.Forms.ContextMenuStrip __contextMenu1;
+        private System.Windows.Forms.ToolStripMenuItem createToolStripMenuItem;
     }
 }
 
