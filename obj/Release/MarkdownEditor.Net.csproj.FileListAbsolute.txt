@@ -1,9 +1,0 @@
-D:\TOOLS\MarkdownEditor.Net\MarkdownEditor.Net\bin\Release\MarkdownEditor.Net.exe.config
-D:\TOOLS\MarkdownEditor.Net\MarkdownEditor.Net\obj\Release\MarkdownEditor.Net.csprojResolveAssemblyReference.cache
-D:\TOOLS\MarkdownEditor.Net\MarkdownEditor.Net\obj\Release\MarkdownEditor.Net.Form1.resources
-D:\TOOLS\MarkdownEditor.Net\MarkdownEditor.Net\obj\Release\MarkdownEditor.Net.Properties.Resources.resources
-D:\TOOLS\MarkdownEditor.Net\MarkdownEditor.Net\obj\Release\MarkdownEditor.Net.csproj.GenerateResource.Cache
-D:\TOOLS\MarkdownEditor.Net\MarkdownEditor.Net\bin\Release\MarkdownEditor.Net.exe
-D:\TOOLS\MarkdownEditor.Net\MarkdownEditor.Net\bin\Release\MarkdownEditor.Net.pdb
-D:\TOOLS\MarkdownEditor.Net\MarkdownEditor.Net\obj\Release\MarkdownEditor.Net.exe
-D:\TOOLS\MarkdownEditor.Net\MarkdownEditor.Net\obj\Release\MarkdownEditor.Net.pdb
