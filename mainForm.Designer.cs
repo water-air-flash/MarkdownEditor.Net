@@ -173,7 +173,7 @@
             this.toolStripSeparator2,
             this.translateToolStripMenuItem});
             this.@__contextMenu2.Name = "contextMenuStrip1";
-            this.@__contextMenu2.Size = new System.Drawing.Size(197, 170);
+            this.@__contextMenu2.Size = new System.Drawing.Size(174, 192);
             // 
             // copyToolStripMenuItem
             // 
@@ -298,8 +298,8 @@
             // translateToolStripMenuItem
             // 
             this.translateToolStripMenuItem.Name = "translateToolStripMenuItem";
-            this.translateToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Space)));
-            this.translateToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.translateToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.translateToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.translateToolStripMenuItem.Text = "Translate";
             this.translateToolStripMenuItem.Click += new System.EventHandler(this.translateToolStripMenuItem_Click);
             // 

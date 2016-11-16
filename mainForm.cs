@@ -19,6 +19,7 @@ namespace MarkdownEditor.Net
         #region Fields
         readonly string _template;
         readonly string _appPath;
+        readonly string _translatePath;
 
         MarkdownPipeline _pipeline;
 
@@ -32,6 +33,7 @@ namespace MarkdownEditor.Net
             InitializeComponent();
             _template =  string.Format("<!DOCTYPE html>\n<html>\n<head>\n <title></title>\n <meta charset=\"utf-8\" />\n <link href=\"{0}\" rel=\"stylesheet\" />\n</head><body>\r\n\r\n\r\n", "style.css".GetApplicationPath());
             _appPath = "datas".GetApplicationPath();
+            _translatePath = _appPath.CombinePath("translat");
             Initialize();
         }
 
@@ -85,6 +87,7 @@ namespace MarkdownEditor.Net
         {
            
             _appPath.CreateDirectoryIfNotExist();
+            _translatePath.CreateDirectoryIfNotExist();
             RefreshFileBox();
             #region MarkDig
 
@@ -260,6 +263,7 @@ namespace MarkdownEditor.Net
             if (!string.IsNullOrWhiteSpace(__textBox.SelectedText))
             {
                var v=await __textBox.SelectedText.Trim().Translate();
+                _translatePath.CombinePath(__textBox.SelectedText.Trim().GetValidFileName() + ".txt").StringToFile(v);
                 MessageBox.Show(v);
             }
         }
