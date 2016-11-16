@@ -2,11 +2,42 @@
 using System;
 using System.Text;
 
+using System.IO.Compression;
 
 namespace MarkdownEditor.Net
 {
    public static class FileExtensions
     {
+
+
+        #region ZIP
+
+        public static void ExtractZipArchive(this string  fileName,Func<string,bool> filter,string dir)
+        {
+            using (var fs = new FileStream(fileName, FileMode.OpenOrCreate))
+            {
+                var zip = new ZipArchive(fs);
+
+                var entries = zip.Entries;
+
+                foreach (var item in entries)
+                {
+                    if (item.Name!=""&&filter(item.FullName))
+                    {
+
+                        using (var fso=new FileStream(dir.CombinePath(item.Name), FileMode.OpenOrCreate))
+                        {
+                            item.Open().CopyTo(fso);
+                        }
+                        
+                    }
+                
+                }
+
+            }
+
+        }
+        #endregion
         public static void CreateEmptyFile(this string fileName)
         {
             File.Create(fileName).Close();

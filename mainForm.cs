@@ -227,7 +227,44 @@ namespace MarkdownEditor.Net
 
         }
    
-        private void headToolStripMenuItem_Click(object sender, EventArgs e)
+       
+
+        #endregion
+
+        private void linkToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            __textBox.SelectedText = $"[{__textBox.SelectedText.Trim()}]()";
+        }
+
+        private async void translateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            if (!string.IsNullOrWhiteSpace(__textBox.SelectedText))
+            {
+               var v=await __textBox.SelectedText.Trim().Translate();
+                _translatePath.CombinePath(__textBox.SelectedText.Trim().GetValidFileName() + ".txt").StringToFile(v);
+                MessageBox.Show(v);
+            }
+        }
+
+     
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            var dir = __textBox.Text.Trim();
+           __textBox.Text.Trim().GetFiles("*.zip").AsParallel().ForAll((i) =>
+            {
+                i.ExtractZipArchive((f)=> {
+                    if (f.Contains("web") && f.Contains("2x")) return true;
+                    else
+                        return false;
+                }, dir);
+            });
+        }
+
+        #region 
+
+        private void _titleButton_Click(object sender, EventArgs e)
         {
             var pos = __textBox.GetPreviousNewLine() + 1;
 
@@ -248,26 +285,6 @@ namespace MarkdownEditor.Net
                 }
             }
         }
-
-
-        #endregion
-
-        private void linkToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            __textBox.SelectedText = $"[{__textBox.SelectedText.Trim()}]()";
-        }
-
-        private async void translateToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-            if (!string.IsNullOrWhiteSpace(__textBox.SelectedText))
-            {
-               var v=await __textBox.SelectedText.Trim().Translate();
-                _translatePath.CombinePath(__textBox.SelectedText.Trim().GetValidFileName() + ".txt").StringToFile(v);
-                MessageBox.Show(v);
-            }
-        }
-
         private void numberListToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             var index = 0;
@@ -283,7 +300,7 @@ namespace MarkdownEditor.Net
 
         private void bulletListToolStripMenuItem_Click(object sender, EventArgs e)
         {
-          
+
             var str = string.Join(Environment.NewLine,
                  __textBox.SelectedText.Lines().Select((i) =>
                  {
@@ -307,5 +324,34 @@ namespace MarkdownEditor.Net
                 splitContainer2.Panel2Collapsed = true;
             }
         }
+
+
+
+        #region 
+
+
+        private void __boldButton_Click(object sender, EventArgs e)
+        {
+            __textBox.SelectedText = $" **{__textBox.SelectedText.Trim()}** ";
+        }
+        private void __italicButton_Click(object sender, EventArgs e)
+        {
+            __textBox.SelectedText = $" *{__textBox.SelectedText.Trim()}* ";
+        }
+        private void __codeButton_Click(object sender, EventArgs e)
+        {
+
+            if (!string.IsNullOrWhiteSpace(__textBox.SelectedText) && __textBox.SelectedText.IndexOf('\n') == -1)
+                __textBox.SelectedText = $" `{__textBox.SelectedText.Trim()}` ";
+            else
+                __textBox.SelectedText = $"\r\n\r\n```\r\n{__textBox.SelectedText.Trim()}\r\n```\r\n\r\n";
+
+
+        }
+        #endregion
+
+        #endregion
+
+
     }
 }
