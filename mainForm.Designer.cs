@@ -54,7 +54,6 @@
             this.translateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.@__listButton = new System.Windows.Forms.ToolStripSplitButton();
             this.numberListToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.bulletListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.@__viewButton = new System.Windows.Forms.ToolStripSplitButton();
             this.previewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -68,6 +67,11 @@
             this.@__boldButton = new System.Windows.Forms.ToolStripButton();
             this.@__italicButton = new System.Windows.Forms.ToolStripButton();
             this.@__codeButton = new System.Windows.Forms.ToolStripButton();
+            this.@__translateButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.@__transTextBox = new System.Windows.Forms.TextBox();
+            this.changeNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.@__indentButton = new System.Windows.Forms.ToolStripSplitButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -90,6 +94,7 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.@__listBox);
+            this.splitContainer1.Panel1.Controls.Add(this.@__transTextBox);
             this.splitContainer1.Panel1.Controls.Add(this.@__fileBox);
             // 
             // splitContainer1.Panel2
@@ -106,7 +111,7 @@
             this.@__listBox.ItemHeight = 12;
             this.@__listBox.Location = new System.Drawing.Point(0, 20);
             this.@__listBox.Name = "__listBox";
-            this.@__listBox.Size = new System.Drawing.Size(207, 480);
+            this.@__listBox.Size = new System.Drawing.Size(207, 358);
             this.@__listBox.TabIndex = 1;
             this.@__listBox.SelectedIndexChanged += new System.EventHandler(this.@__listBox_SelectedIndexChanged);
             // 
@@ -240,11 +245,14 @@
             this.@__boldButton,
             this.@__italicButton,
             this.@__codeButton,
+            this.@__indentButton,
             this.@__listButton,
             this.toolStripSeparator5,
             this.@__imageButton,
             this.toolStripSeparator6,
-            this.@__viewButton});
+            this.@__viewButton,
+            this.toolStripSeparator7,
+            this.@__translateButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(895, 31);
@@ -274,6 +282,8 @@
             // __saveButton
             // 
             this.@__saveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.@__saveButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.changeNameToolStripMenuItem});
             this.@__saveButton.Image = ((System.Drawing.Image)(resources.GetObject("__saveButton.Image")));
             this.@__saveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.@__saveButton.Name = "__saveButton";
@@ -318,13 +328,13 @@
             // 
             this.@__listButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.@__listButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.numberListToolStripMenuItem1,
-            this.bulletListToolStripMenuItem});
+            this.numberListToolStripMenuItem1});
             this.@__listButton.Image = ((System.Drawing.Image)(resources.GetObject("__listButton.Image")));
             this.@__listButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.@__listButton.Name = "__listButton";
             this.@__listButton.Size = new System.Drawing.Size(40, 28);
             this.@__listButton.Text = "List";
+            this.@__listButton.ButtonClick += new System.EventHandler(this.@__listButton_ButtonClick);
             // 
             // numberListToolStripMenuItem1
             // 
@@ -332,13 +342,6 @@
             this.numberListToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.numberListToolStripMenuItem1.Text = "Number List";
             this.numberListToolStripMenuItem1.Click += new System.EventHandler(this.numberListToolStripMenuItem1_Click);
-            // 
-            // bulletListToolStripMenuItem
-            // 
-            this.bulletListToolStripMenuItem.Name = "bulletListToolStripMenuItem";
-            this.bulletListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.bulletListToolStripMenuItem.Text = "Bullet List";
-            this.bulletListToolStripMenuItem.Click += new System.EventHandler(this.bulletListToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -441,6 +444,47 @@
             this.@__codeButton.Text = "Code";
             this.@__codeButton.Click += new System.EventHandler(this.@__codeButton_Click);
             // 
+            // __translateButton
+            // 
+            this.@__translateButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.@__translateButton.Image = ((System.Drawing.Image)(resources.GetObject("__translateButton.Image")));
+            this.@__translateButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.@__translateButton.Name = "__translateButton";
+            this.@__translateButton.Size = new System.Drawing.Size(28, 28);
+            this.@__translateButton.Text = "Translate";
+            this.@__translateButton.Click += new System.EventHandler(this.@__translateButton_Click);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 31);
+            // 
+            // __transTextBox
+            // 
+            this.@__transTextBox.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.@__transTextBox.Location = new System.Drawing.Point(0, 378);
+            this.@__transTextBox.Multiline = true;
+            this.@__transTextBox.Name = "__transTextBox";
+            this.@__transTextBox.Size = new System.Drawing.Size(207, 122);
+            this.@__transTextBox.TabIndex = 2;
+            // 
+            // changeNameToolStripMenuItem
+            // 
+            this.changeNameToolStripMenuItem.Name = "changeNameToolStripMenuItem";
+            this.changeNameToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.changeNameToolStripMenuItem.Text = "Change Name";
+            this.changeNameToolStripMenuItem.Click += new System.EventHandler(this.changeNameToolStripMenuItem_Click);
+            // 
+            // __indentButton
+            // 
+            this.@__indentButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.@__indentButton.Image = ((System.Drawing.Image)(resources.GetObject("__indentButton.Image")));
+            this.@__indentButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.@__indentButton.Name = "__indentButton";
+            this.@__indentButton.Size = new System.Drawing.Size(40, 28);
+            this.@__indentButton.Text = "Indent";
+            this.@__indentButton.ButtonClick += new System.EventHandler(this.@__indentButton_ButtonClick);
+            // 
             // __mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -450,6 +494,7 @@
             this.Name = "__mainForm";
             this.Text = "Form1";
             this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
@@ -492,7 +537,6 @@
         private System.Windows.Forms.ToolStripMenuItem translateToolStripMenuItem;
         private System.Windows.Forms.ToolStripSplitButton __listButton;
         private System.Windows.Forms.ToolStripMenuItem numberListToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem bulletListToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSplitButton __viewButton;
         private System.Windows.Forms.ToolStripMenuItem previewToolStripMenuItem;
@@ -506,6 +550,11 @@
         private System.Windows.Forms.ToolStripButton __boldButton;
         private System.Windows.Forms.ToolStripButton __italicButton;
         private System.Windows.Forms.ToolStripButton __codeButton;
+        private System.Windows.Forms.ToolStripButton __translateButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.TextBox __transTextBox;
+        private System.Windows.Forms.ToolStripMenuItem changeNameToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSplitButton __indentButton;
     }
 }
 

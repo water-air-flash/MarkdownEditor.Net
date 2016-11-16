@@ -39,7 +39,16 @@ namespace MarkdownEditor.Net
 
 
         #region Methods
-
+        bool CheckReadyNew()
+        {
+            if (!string.IsNullOrEmpty(__fileBox.Text) &&!string.IsNullOrWhiteSpace(__textBox.Text)) return true;
+            return false;
+        }
+        bool CheckReadyModify()
+        {
+            if (_currentKey != null&&_dic!=null && !string.IsNullOrEmpty(__fileBox.Text)&& _appPath.CombinePath(__fileBox.Text+".json").IsFile()) return true;
+            return false;
+        }
         void UpdateStatus(string key)
         {
             _currentKey = key;
@@ -67,19 +76,24 @@ namespace MarkdownEditor.Net
             }
             else
             {
-                var key = __textBox.GetFirstNotEmptyLine();
-                
-                if (!string.IsNullOrWhiteSpace(__fileBox.Text )&& key != null)
+                if (CheckReadyNew())
                 {
-                    key = key.Trim().TrimStart(new char[] { '#', ' ' });
-                    var fileName = __fileBox.Text.GetValidFileName() + ".json";
-                    if (_dic == null)
-                        _dic = new Dictionary<string, string>();
-                    _dic.Add(key, __textBox.Text);
+                    var key = __textBox.GetFirstNotEmptyLine();
 
-                    RefreshListBox(Flush(_appPath.CombinePath(fileName)));
-                    UpdateStatus(key);
+                    if ( key != null)
+                    {
+                        key = key.Trim().TrimStart(new char[] { '#', ' ' });
+                        var fileName = __fileBox.Text.GetValidFileName() + ".json";
+                      
+                        if (_dic == null)
+                            _dic = new Dictionary<string, string>();
+                        _dic.Add(key, __textBox.Text);
+
+                        RefreshListBox(Flush(_appPath.CombinePath(fileName)));
+                        UpdateStatus(key);
+                    }
                 }
+               
             }
           
         }
@@ -101,6 +115,17 @@ namespace MarkdownEditor.Net
 
         }
 
+       async  void Translating()
+        {
+
+            if (!string.IsNullOrWhiteSpace(__textBox.SelectedText))
+            {
+                var v = await __textBox.SelectedText.Trim().Translate();
+                _translatePath.CombinePath(__textBox.SelectedText.Trim().GetValidFileName().ToLower() + ".txt").StringToFile(v);
+                __transTextBox.Text = v;
+
+            }
+        }
         private string RenderMarkdown(string v)
         {
 
@@ -183,12 +208,31 @@ namespace MarkdownEditor.Net
             }
         }
 
+        #region Under Save Button
         private void __saveButton_ButtonClick(object sender, EventArgs e)
         {
             Save();
         }
+        private void changeNameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (CheckReadyModify())
+            {
+                var key = __textBox.GetFirstNotEmptyLine();
+                key = key.Trim().TrimStart(new char[] { '#', ' ' });
+                var fileName = __fileBox.Text+ ".json";
 
-     
+                _dic.Remove(_currentKey);
+                _dic.Add(key, __textBox.Text);
+
+                RefreshListBox(Flush(_appPath.CombinePath(fileName)));
+                UpdateStatus(key);
+
+             
+            }
+        }
+        #endregion
+
+
         private void __newButton_ButtonClick(object sender, EventArgs e)
         {
             this.Text = null;
@@ -236,15 +280,9 @@ namespace MarkdownEditor.Net
             __textBox.SelectedText = $"[{__textBox.SelectedText.Trim()}]()";
         }
 
-        private async void translateToolStripMenuItem_Click(object sender, EventArgs e)
+        private void translateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-            if (!string.IsNullOrWhiteSpace(__textBox.SelectedText))
-            {
-               var v=await __textBox.SelectedText.Trim().Translate();
-                _translatePath.CombinePath(__textBox.SelectedText.Trim().GetValidFileName() + ".txt").StringToFile(v);
-                MessageBox.Show(v);
-            }
+            Translating();
         }
 
      
@@ -285,29 +323,11 @@ namespace MarkdownEditor.Net
                 }
             }
         }
-        private void numberListToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            var index = 0;
-            var str = string.Join(Environment.NewLine,
-                 __textBox.SelectedText.Lines().Select((i) =>
-                 {
-                     index++;
-
-                     return index + ". " + i.Trim();
-                 }));
-            __textBox.SelectedText = $"\r\n\r\n{str}\r\n";
-        }
+      
 
         private void bulletListToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            var str = string.Join(Environment.NewLine,
-                 __textBox.SelectedText.Lines().Select((i) =>
-                 {
-
-                     return "- " + i.Trim();
-                 }));
-            __textBox.SelectedText = $"\r\n\r\n{str}\r\n";
         }
 
         private void previewToolStripMenuItem_Click(object sender, EventArgs e)
@@ -348,10 +368,66 @@ namespace MarkdownEditor.Net
 
 
         }
-        #endregion
 
         #endregion
+        private   void __translateButton_Click(object sender, EventArgs e)
+        {
+            Translating(); 
+        }
+        #endregion
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Menu|Keys.Alt))
+            {
+                Translating();
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+
+        #region Under List Button
+        private void __listButton_ButtonClick(object sender, EventArgs e)
+        {
+
+            var str = string.Join(Environment.NewLine,
+                 __textBox.SelectedText.Lines().Select((i) =>
+                 {
+
+                     return "- " + i.Trim();
+                 }));
+            __textBox.SelectedText = $"\r\n\r\n{str}\r\n";
+        }
+        private void numberListToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            var index = 0;
+            var str = string.Join(Environment.NewLine,
+                 __textBox.SelectedText.Lines().Select((i) =>
+                 {
+                     index++;
+
+                     return index + ". " + i.Trim();
+                 }));
+            __textBox.SelectedText = $"\r\n\r\n{str}\r\n";
+        }
+        #endregion
+
+
+
+
+        #region Under Indent Button
+        private void __indentButton_ButtonClick(object sender, EventArgs e)
+        {
+
+            var str = string.Join(Environment.NewLine,
+                 __textBox.SelectedText.Lines().Select((i) =>
+                 {
+
+                     return "\t" + i.TrimEnd();
+                 }));
+            __textBox.SelectedText = $"{str}";
+        }
+        #endregion
 
     }
 }
