@@ -215,5 +215,42 @@ namespace MarkdownEditor.Net
                  }));
             __textBox.SelectedText = $"\r\n\r\n{str}\r\n";
         }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(__textBox.GetSelectLine());
+        }
+
+        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            __textBox.Paste();
+        }
+
+        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            __textBox.SelectAll();
+        }
+
+        private void headToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+           var pos= __textBox.GetPreviousNewLine()+1;
+
+            if (pos != -1)
+            {
+                __textBox.SelectionStart = pos;
+                __textBox.SelectionLength = 0;
+
+                if (__textBox.Text[pos] == '#')
+                {
+                   
+                    __textBox.SelectedText = "#";
+                }
+                else
+                {
+                    __textBox.SelectedText = "# ";
+
+                }
+            }
+        }
     }
 }

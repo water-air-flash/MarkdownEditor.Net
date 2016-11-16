@@ -16,6 +16,15 @@ namespace MarkdownEditor.Net
             }
             return null;
         }
+        public static int GetPreviousNewLine(this TextBox textBox)
+        {
+            for (int i = textBox.SelectionStart-1; i >0 ; i--)
+            {
+                if (textBox.Text[i] == '\n')
+                    return i;
+            }
+            return -1;
+        }
         public static string GetCurrentLine(this TextBox textBox)
         {
             if (string.IsNullOrWhiteSpace(textBox.Text)) return null;
