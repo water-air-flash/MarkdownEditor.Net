@@ -186,16 +186,7 @@ namespace MarkdownEditor.Net
             Save();
         }
 
-        private void codeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if(!string.IsNullOrWhiteSpace(__textBox.SelectedText)&&__textBox.SelectedText.IndexOf('\n')==-1)
-            __textBox.SelectedText = $" `{__textBox.SelectedText.Trim()}` ";
-            else
-                __textBox.SelectedText = $"\r\n\r\n```\r\n{__textBox.SelectedText.Trim()}\r\n```\r\n\r\n";
-
-
-        }
-
+     
         private void __newButton_ButtonClick(object sender, EventArgs e)
         {
             this.Text = null;
@@ -203,19 +194,9 @@ namespace MarkdownEditor.Net
             _currentKey = null;
         }
 
-        private void numberListToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var index = 0;
-            var str = string.Join(Environment.NewLine,
-                 __textBox.SelectedText.Lines().Select((i) =>
-                 {
-                     index++;
+       
 
-                     return index + ". " + i.Trim();
-                 }));
-            __textBox.SelectedText = $"\r\n\r\n{str}\r\n";
-        }
-
+        #region 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Clipboard.SetText(__textBox.GetSelectLine());
@@ -230,10 +211,35 @@ namespace MarkdownEditor.Net
         {
             __textBox.SelectAll();
         }
+        #endregion
+
+
+        #region 
+        private void codeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(__textBox.SelectedText) && __textBox.SelectedText.IndexOf('\n') == -1)
+                __textBox.SelectedText = $" `{__textBox.SelectedText.Trim()}` ";
+            else
+                __textBox.SelectedText = $"\r\n\r\n```\r\n{__textBox.SelectedText.Trim()}\r\n```\r\n\r\n";
+
+
+        }
+        private void numberListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var index = 0;
+            var str = string.Join(Environment.NewLine,
+                 __textBox.SelectedText.Lines().Select((i) =>
+                 {
+                     index++;
+
+                     return index + ". " + i.Trim();
+                 }));
+            __textBox.SelectedText = $"\r\n\r\n{str}\r\n";
+        }
 
         private void headToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           var pos= __textBox.GetPreviousNewLine()+1;
+            var pos = __textBox.GetPreviousNewLine() + 1;
 
             if (pos != -1)
             {
@@ -242,7 +248,7 @@ namespace MarkdownEditor.Net
 
                 if (__textBox.Text[pos] == '#')
                 {
-                   
+
                     __textBox.SelectedText = "#";
                 }
                 else
@@ -252,5 +258,9 @@ namespace MarkdownEditor.Net
                 }
             }
         }
+
+
+        #endregion
+
     }
 }

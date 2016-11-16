@@ -28,7 +28,7 @@ namespace MarkdownEditor.Net
         public static string GetCurrentLine(this TextBox textBox)
         {
             if (string.IsNullOrWhiteSpace(textBox.Text)) return null;
-            var chs = textBox.Text.ToCharArray();
+            var chs = textBox.Text;
             var start = textBox.SelectionStart;
             var sf = 0;
             var se = chs.Length;
