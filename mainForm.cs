@@ -262,5 +262,20 @@ namespace MarkdownEditor.Net
 
         #endregion
 
+        private void linkToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            __textBox.SelectedText = $"[{__textBox.SelectedText.Trim()}]()";
+        }
+
+        private async void translateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            if (!string.IsNullOrWhiteSpace(__textBox.SelectedText))
+            {
+               var v=await __textBox.SelectedText.Trim().Translate();
+
+                __textBox.SelectedText += Environment.NewLine + v;
+            }
+        }
     }
 }

@@ -53,6 +53,7 @@
     <Compile Include="Extensions\FormExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\FileSystemHelpers.cs" />
+    <Compile Include="Helpers\TranslationHelper.cs" />
     <Compile Include="mainForm.cs">
       <SubType>Form</SubType>
     </Compile>
