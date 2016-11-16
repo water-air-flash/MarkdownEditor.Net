@@ -155,6 +155,9 @@ namespace MarkdownEditor.Net
         }
         #endregion
 
+
+        #region TextBox
+
         private void __textBox_TextChanged(object sender, EventArgs e)
         {
             if (this.Text.Length > 0 && this.Text[this.Text.Length - 1] != '*')
@@ -162,8 +165,13 @@ namespace MarkdownEditor.Net
                 this.Text += "*";
             }
             if (_previewEnable)
+            {
                 __webBrowser.DocumentText = RenderMarkdown(__textBox.Text);
+                __textBox.Focus();
+            }
         }
+        #endregion
+
 
         private void __appButton_Click(object sender, EventArgs e)
         {
@@ -429,5 +437,18 @@ namespace MarkdownEditor.Net
         }
         #endregion
 
+        private void listToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (listToolStripMenuItem.Checked)
+            {
+                splitContainer1.Panel1Collapsed = false;
+
+            }
+            else
+            {
+                splitContainer1.Panel1Collapsed = true;
+
+            }
+        }
     }
 }

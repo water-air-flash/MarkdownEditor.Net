@@ -72,6 +72,7 @@
             this.@__transTextBox = new System.Windows.Forms.TextBox();
             this.changeNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.@__indentButton = new System.Windows.Forms.ToolStripSplitButton();
+            this.listToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -163,6 +164,7 @@
             // 
             // __textBox
             // 
+            this.@__textBox.AcceptsTab = true;
             this.@__textBox.ContextMenuStrip = this.@__contextMenu2;
             this.@__textBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.@__textBox.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -353,7 +355,8 @@
             this.@__viewButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.@__viewButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.previewToolStripMenuItem,
-            this.toolStripMenuItem2});
+            this.toolStripMenuItem2,
+            this.listToolStripMenuItem});
             this.@__viewButton.Image = ((System.Drawing.Image)(resources.GetObject("__viewButton.Image")));
             this.@__viewButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.@__viewButton.Name = "__viewButton";
@@ -485,6 +488,16 @@
             this.@__indentButton.Text = "Indent";
             this.@__indentButton.ButtonClick += new System.EventHandler(this.@__indentButton_ButtonClick);
             // 
+            // listToolStripMenuItem
+            // 
+            this.listToolStripMenuItem.Checked = true;
+            this.listToolStripMenuItem.CheckOnClick = true;
+            this.listToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.listToolStripMenuItem.Name = "listToolStripMenuItem";
+            this.listToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.listToolStripMenuItem.Text = "List";
+            this.listToolStripMenuItem.Click += new System.EventHandler(this.listToolStripMenuItem_Click);
+            // 
             // __mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -555,6 +568,7 @@
         private System.Windows.Forms.TextBox __transTextBox;
         private System.Windows.Forms.ToolStripMenuItem changeNameToolStripMenuItem;
         private System.Windows.Forms.ToolStripSplitButton __indentButton;
+        private System.Windows.Forms.ToolStripMenuItem listToolStripMenuItem;
     }
 }
 
