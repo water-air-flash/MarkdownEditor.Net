@@ -32,7 +32,6 @@ namespace MarkdownEditor.Net
             InitializeComponent();
             _template =  string.Format("<!DOCTYPE html>\n<html>\n<head>\n <title></title>\n <meta charset=\"utf-8\" />\n <link href=\"{0}\" rel=\"stylesheet\" />\n</head><body>\r\n\r\n\r\n", "style.css".GetApplicationPath());
             _appPath = "datas".GetApplicationPath();
-            _previewEnable = true;
             Initialize();
         }
 
@@ -224,19 +223,7 @@ namespace MarkdownEditor.Net
 
 
         }
-        private void numberListToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var index = 0;
-            var str = string.Join(Environment.NewLine,
-                 __textBox.SelectedText.Lines().Select((i) =>
-                 {
-                     index++;
-
-                     return index + ". " + i.Trim();
-                 }));
-            __textBox.SelectedText = $"\r\n\r\n{str}\r\n";
-        }
-
+   
         private void headToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var pos = __textBox.GetPreviousNewLine() + 1;
@@ -273,8 +260,47 @@ namespace MarkdownEditor.Net
             if (!string.IsNullOrWhiteSpace(__textBox.SelectedText))
             {
                var v=await __textBox.SelectedText.Trim().Translate();
+                MessageBox.Show(v);
+            }
+        }
 
-                __textBox.SelectedText += Environment.NewLine + v;
+        private void numberListToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            var index = 0;
+            var str = string.Join(Environment.NewLine,
+                 __textBox.SelectedText.Lines().Select((i) =>
+                 {
+                     index++;
+
+                     return index + ". " + i.Trim();
+                 }));
+            __textBox.SelectedText = $"\r\n\r\n{str}\r\n";
+        }
+
+        private void bulletListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+          
+            var str = string.Join(Environment.NewLine,
+                 __textBox.SelectedText.Lines().Select((i) =>
+                 {
+
+                     return "- " + i.Trim();
+                 }));
+            __textBox.SelectedText = $"\r\n\r\n{str}\r\n";
+        }
+
+        private void previewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (previewToolStripMenuItem.Checked)
+            {
+                _previewEnable = true;
+                splitContainer2.Panel2Collapsed = false;
+
+            }
+            else
+            {
+                _previewEnable = false;
+                splitContainer2.Panel2Collapsed = true;
             }
         }
     }
