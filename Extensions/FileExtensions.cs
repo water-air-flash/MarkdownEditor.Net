@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System;
 using System.Text;
-
+using System.Linq;
 using System.IO.Compression;
 
 namespace MarkdownEditor.Net
@@ -9,6 +9,19 @@ namespace MarkdownEditor.Net
    public static class FileExtensions
     {
 
+        public static void MoveFileByExtension(this string dir)
+        {
+
+            Directory.GetFiles(dir).AsParallel().ForAll((i) =>
+            {
+                var p = dir.CombinePath(Path.GetExtension(i).ToUpper());
+
+                p.CreateDirectoryIfNotExist();
+                if(!p.CombinePath(Path.GetFileName(i)).IsFile())
+                File.Move(i, p.CombinePath(Path.GetFileName(i)));
+            });
+           
+        }
 
         #region ZIP
 

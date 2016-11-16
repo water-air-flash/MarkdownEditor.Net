@@ -20,10 +20,11 @@ namespace MarkdownEditor.Net
         readonly string _template;
         readonly string _appPath;
         readonly string _translatePath;
-
+        readonly string _markdownPath;
+        readonly string _host;
         MarkdownPipeline _pipeline;
-
-        string _currentKey=null;
+        SimpleSever _sever;
+        string _currentKey = null;
         bool _previewEnable;
         Dictionary<string, string> _dic;
         #endregion
@@ -31,9 +32,12 @@ namespace MarkdownEditor.Net
         public __mainForm()
         {
             InitializeComponent();
-            _template =  string.Format("<!DOCTYPE html>\n<html>\n<head>\n <title></title>\n <meta charset=\"utf-8\" />\n <link href=\"{0}\" rel=\"stylesheet\" />\n</head><body>\r\n\r\n\r\n", "style.css".GetApplicationPath());
+            _host = "http://127.0.0.1:8181";
+            //.GetApplicationPath();
+            _template = string.Format("<!DOCTYPE html>\n<html>\n<head>\n <title></title>\n <meta charset=\"utf-8\" />\n <link href=\"{0}\" rel=\"stylesheet\" />\n</head><body>\r\n\r\n\r\n", "style.css");
             _appPath = "datas".GetApplicationPath();
             _translatePath = _appPath.CombinePath("translat");
+            _markdownPath = _appPath.CombinePath("markdown");
             Initialize();
         }
 
@@ -41,12 +45,12 @@ namespace MarkdownEditor.Net
         #region Methods
         bool CheckReadyNew()
         {
-            if (!string.IsNullOrEmpty(__fileBox.Text) &&!string.IsNullOrWhiteSpace(__textBox.Text)) return true;
+            if (!string.IsNullOrEmpty(__fileBox.Text) && !string.IsNullOrWhiteSpace(__textBox.Text)) return true;
             return false;
         }
         bool CheckReadyModify()
         {
-            if (_currentKey != null&&_dic!=null && !string.IsNullOrEmpty(__fileBox.Text)&& _appPath.CombinePath(__fileBox.Text+".json").IsFile()) return true;
+            if (_currentKey != null && _dic != null && !string.IsNullOrEmpty(__fileBox.Text) && _appPath.CombinePath(__fileBox.Text + ".json").IsFile()) return true;
             return false;
         }
         void UpdateStatus(string key)
@@ -80,11 +84,11 @@ namespace MarkdownEditor.Net
                 {
                     var key = __textBox.GetFirstNotEmptyLine();
 
-                    if ( key != null)
+                    if (key != null)
                     {
                         key = key.Trim().TrimStart(new char[] { '#', ' ' });
                         var fileName = __fileBox.Text.GetValidFileName() + ".json";
-                      
+
                         if (_dic == null)
                             _dic = new Dictionary<string, string>();
                         _dic.Add(key, __textBox.Text);
@@ -93,15 +97,16 @@ namespace MarkdownEditor.Net
                         UpdateStatus(key);
                     }
                 }
-               
+
             }
-          
+
         }
         private void Initialize()
         {
-           
+
             _appPath.CreateDirectoryIfNotExist();
             _translatePath.CreateDirectoryIfNotExist();
+            _markdownPath.CreateDirectoryIfNotExist();
             RefreshFileBox();
             #region MarkDig
 
@@ -115,7 +120,7 @@ namespace MarkdownEditor.Net
 
         }
 
-       async  void Translating()
+        async void Translating()
         {
 
             if (!string.IsNullOrWhiteSpace(__textBox.SelectedText))
@@ -136,15 +141,15 @@ namespace MarkdownEditor.Net
         {
             __fileBox.Items.Clear();
             __fileBox.Items.AddRange(_appPath.GetFiles().Select(i => i.GetFileNameWithoutExtension()).ToArray());
-            
+
         }
         void RefreshListBox(string v)
         {
             __listBox.Items.Clear();
             if (string.IsNullOrWhiteSpace(v)) return;
             _dic = new JavaScriptSerializer().Deserialize<Dictionary<string, string>>(v);
-            
-                __listBox.Items.AddRange(_dic.Keys.OrderBy(i=>i).ToArray());
+
+            __listBox.Items.AddRange(_dic.Keys.OrderBy(i => i).ToArray());
 
         }
         void Reset()
@@ -166,7 +171,8 @@ namespace MarkdownEditor.Net
             }
             if (_previewEnable)
             {
-                __webBrowser.DocumentText = RenderMarkdown(__textBox.Text);
+                _sever.SetContent(RenderMarkdown(__textBox.Text));
+                __webBrowser.Navigate(_host);
                 __textBox.Focus();
             }
         }
@@ -199,7 +205,7 @@ namespace MarkdownEditor.Net
             {
                 Reset();
                 RefreshListBox(f.FileToString());
-                
+
             }
         }
 
@@ -207,7 +213,7 @@ namespace MarkdownEditor.Net
         {
             if (__listBox.SelectedIndex != -1)
             {
-               
+
                 _currentKey = __listBox.SelectedItem.ToString();
 
                 this.Text = _currentKey;
@@ -227,7 +233,7 @@ namespace MarkdownEditor.Net
             {
                 var key = __textBox.GetFirstNotEmptyLine();
                 key = key.Trim().TrimStart(new char[] { '#', ' ' });
-                var fileName = __fileBox.Text+ ".json";
+                var fileName = __fileBox.Text + ".json";
 
                 _dic.Remove(_currentKey);
                 _dic.Add(key, __textBox.Text);
@@ -235,8 +241,23 @@ namespace MarkdownEditor.Net
                 RefreshListBox(Flush(_appPath.CombinePath(fileName)));
                 UpdateStatus(key);
 
-             
+
             }
+        }
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (__listBox.SelectedIndex != -1)
+            {
+                _dic.Remove(__listBox.SelectedItem.ToString());
+                var fileName = __fileBox.Text + ".json";
+                RefreshListBox(Flush(_appPath.CombinePath(fileName)));
+                _currentKey = null;
+            }
+        }
+
+        private void collectDocumentKeyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            __textBox.SelectedText += Environment.NewLine + string.Join(Environment.NewLine, _dic.Keys);
         }
         #endregion
 
@@ -248,7 +269,7 @@ namespace MarkdownEditor.Net
             _currentKey = null;
         }
 
-       
+
 
         #region 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -278,8 +299,8 @@ namespace MarkdownEditor.Net
 
 
         }
-   
-       
+
+
 
         #endregion
 
@@ -293,20 +314,8 @@ namespace MarkdownEditor.Net
             Translating();
         }
 
-     
 
-        private void toolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-            var dir = __textBox.Text.Trim();
-           __textBox.Text.Trim().GetFiles("*.zip").AsParallel().ForAll((i) =>
-            {
-                i.ExtractZipArchive((f)=> {
-                    if (f.Contains("web") && f.Contains("2x")) return true;
-                    else
-                        return false;
-                }, dir);
-            });
-        }
+
 
         #region 
 
@@ -331,7 +340,7 @@ namespace MarkdownEditor.Net
                 }
             }
         }
-      
+
 
         private void bulletListToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -378,15 +387,15 @@ namespace MarkdownEditor.Net
         }
 
         #endregion
-        private   void __translateButton_Click(object sender, EventArgs e)
+        private void __translateButton_Click(object sender, EventArgs e)
         {
-            Translating(); 
+            Translating();
         }
         #endregion
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (keyData == (Keys.Menu|Keys.Alt))
+            if (keyData == (Keys.Menu | Keys.Alt))
             {
                 Translating();
             }
@@ -435,6 +444,18 @@ namespace MarkdownEditor.Net
                  }));
             __textBox.SelectedText = $"{str}";
         }
+
+
+        private void twiceIncreaseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var str = string.Join(Environment.NewLine,
+          __textBox.SelectedText.Lines().Select((i) =>
+          {
+
+              return "\t\t" + i.TrimEnd();
+          }));
+            __textBox.SelectedText = $"{str}";
+        }
         #endregion
 
         private void listToolStripMenuItem_Click(object sender, EventArgs e)
@@ -449,6 +470,45 @@ namespace MarkdownEditor.Net
                 splitContainer1.Panel1Collapsed = true;
 
             }
+        }
+
+
+        #region 
+        private void moveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (__textBox.Text.Trim().IsDirectory())
+                __textBox.Text.Trim().MoveFileByExtension();
+        }
+
+        private void materialIconsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (__textBox.Text.Trim().IsDirectory())
+            {
+                var dir = __textBox.Text.Trim();
+                __textBox.Text.Trim().GetFiles("*.zip").AsParallel().ForAll((i) =>
+                {
+                    i.ExtractZipArchive((f) =>
+                    {
+                        if (f.Contains("web") && f.Contains("2x")) return true;
+                        else
+                            return false;
+                    }, dir);
+                });
+            }
+        }
+        #endregion
+
+        private void __mainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _sever.Stop();
+
+        }
+
+        private void __mainForm_Load(object sender, EventArgs e)
+        {
+            _appPath.CombinePath("resource").CreateDirectoryIfNotExist();
+            _sever = new SimpleSever(_host.Split(':').Last(),_appPath.CombinePath("resource"));
+
         }
     }
 }
