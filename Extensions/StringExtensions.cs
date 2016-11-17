@@ -9,7 +9,7 @@ namespace MarkdownEditor.Net
 {
    public static  class StringExtensions
     {
-       
+        
         public static string Flat(this IEnumerable<string> ls)
         {
             if (ls == null)

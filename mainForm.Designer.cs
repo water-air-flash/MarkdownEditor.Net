@@ -33,7 +33,6 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.@__listBox = new System.Windows.Forms.ListBox();
             this.@__transTextBox = new System.Windows.Forms.TextBox();
-            this.@__fileBox = new System.Windows.Forms.ComboBox();
             this.@__contextMenu1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.createToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -51,6 +50,7 @@
             this.@__findBox = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
             this.keepMatchesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.findToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.@__appButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -63,6 +63,10 @@
             this._titleButton = new System.Windows.Forms.ToolStripButton();
             this.@__boldButton = new System.Windows.Forms.ToolStripButton();
             this.@__italicButton = new System.Windows.Forms.ToolStripButton();
+            this.@__codeButton = new System.Windows.Forms.ToolStripSplitButton();
+            this.chromeHeadersToJavaScriptObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sortDistinctToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeEmptyLinesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.@__indentButton = new System.Windows.Forms.ToolStripSplitButton();
             this.twiceIncreaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.@__listButton = new System.Windows.Forms.ToolStripSplitButton();
@@ -81,10 +85,7 @@
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.@__webBrowser = new System.Windows.Forms.WebBrowser();
-            this.findToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.@__codeButton = new System.Windows.Forms.ToolStripSplitButton();
-            this.chromeHeadersToJavaScriptObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sortDistinctToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.@__fileBox = new MarkdownEditor.Net.Box();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -137,17 +138,6 @@
             this.@__transTextBox.Name = "__transTextBox";
             this.@__transTextBox.Size = new System.Drawing.Size(207, 122);
             this.@__transTextBox.TabIndex = 2;
-            // 
-            // __fileBox
-            // 
-            this.@__fileBox.ContextMenuStrip = this.@__contextMenu1;
-            this.@__fileBox.Dock = System.Windows.Forms.DockStyle.Top;
-            this.@__fileBox.FormattingEnabled = true;
-            this.@__fileBox.Location = new System.Drawing.Point(0, 0);
-            this.@__fileBox.Name = "__fileBox";
-            this.@__fileBox.Size = new System.Drawing.Size(207, 20);
-            this.@__fileBox.TabIndex = 0;
-            this.@__fileBox.SelectedIndexChanged += new System.EventHandler(this.@__fileBox_SelectedIndexChanged);
             // 
             // __contextMenu1
             // 
@@ -305,6 +295,14 @@
             this.keepMatchesToolStripMenuItem.Text = "Keep Matches";
             this.keepMatchesToolStripMenuItem.Click += new System.EventHandler(this.keepMatchesToolStripMenuItem_Click);
             // 
+            // findToolStripMenuItem
+            // 
+            this.findToolStripMenuItem.Name = "findToolStripMenuItem";
+            this.findToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
+            this.findToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.findToolStripMenuItem.Text = "Find";
+            this.findToolStripMenuItem.Click += new System.EventHandler(this.findToolStripMenuItem_Click);
+            // 
             // toolStrip1
             // 
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(18, 18);
@@ -427,6 +425,41 @@
             this.@__italicButton.Size = new System.Drawing.Size(23, 22);
             this.@__italicButton.Tag = "Italic";
             this.@__italicButton.Click += new System.EventHandler(this.@__italicButton_Click);
+            // 
+            // __codeButton
+            // 
+            this.@__codeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.@__codeButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.chromeHeadersToJavaScriptObjectToolStripMenuItem,
+            this.sortDistinctToolStripMenuItem,
+            this.removeEmptyLinesToolStripMenuItem});
+            this.@__codeButton.Image = ((System.Drawing.Image)(resources.GetObject("__codeButton.Image")));
+            this.@__codeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.@__codeButton.Name = "__codeButton";
+            this.@__codeButton.Size = new System.Drawing.Size(34, 22);
+            this.@__codeButton.Text = "Code";
+            this.@__codeButton.ButtonClick += new System.EventHandler(this.@__codeButton_Click);
+            // 
+            // chromeHeadersToJavaScriptObjectToolStripMenuItem
+            // 
+            this.chromeHeadersToJavaScriptObjectToolStripMenuItem.Name = "chromeHeadersToJavaScriptObjectToolStripMenuItem";
+            this.chromeHeadersToJavaScriptObjectToolStripMenuItem.Size = new System.Drawing.Size(298, 22);
+            this.chromeHeadersToJavaScriptObjectToolStripMenuItem.Text = "Chrome Headers To JavaScript Object";
+            this.chromeHeadersToJavaScriptObjectToolStripMenuItem.Click += new System.EventHandler(this.chromeHeadersToJavaScriptObjectToolStripMenuItem_Click);
+            // 
+            // sortDistinctToolStripMenuItem
+            // 
+            this.sortDistinctToolStripMenuItem.Name = "sortDistinctToolStripMenuItem";
+            this.sortDistinctToolStripMenuItem.Size = new System.Drawing.Size(298, 22);
+            this.sortDistinctToolStripMenuItem.Text = "Sort And Distinct";
+            this.sortDistinctToolStripMenuItem.Click += new System.EventHandler(this.sortDistinctToolStripMenuItem_Click);
+            // 
+            // removeEmptyLinesToolStripMenuItem
+            // 
+            this.removeEmptyLinesToolStripMenuItem.Name = "removeEmptyLinesToolStripMenuItem";
+            this.removeEmptyLinesToolStripMenuItem.Size = new System.Drawing.Size(298, 22);
+            this.removeEmptyLinesToolStripMenuItem.Text = "Remove Empty Lines";
+            this.removeEmptyLinesToolStripMenuItem.Click += new System.EventHandler(this.removeEmptyLinesToolStripMenuItem_Click);
             // 
             // __indentButton
             // 
@@ -579,40 +612,15 @@
             this.@__webBrowser.Size = new System.Drawing.Size(96, 100);
             this.@__webBrowser.TabIndex = 0;
             // 
-            // findToolStripMenuItem
+            // __fileBox
             // 
-            this.findToolStripMenuItem.Name = "findToolStripMenuItem";
-            this.findToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
-            this.findToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
-            this.findToolStripMenuItem.Text = "Find";
-            this.findToolStripMenuItem.Click += new System.EventHandler(this.findToolStripMenuItem_Click);
-            // 
-            // __codeButton
-            // 
-            this.@__codeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.@__codeButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.chromeHeadersToJavaScriptObjectToolStripMenuItem,
-            this.sortDistinctToolStripMenuItem});
-            this.@__codeButton.Image = ((System.Drawing.Image)(resources.GetObject("__codeButton.Image")));
-            this.@__codeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.@__codeButton.Name = "__codeButton";
-            this.@__codeButton.Size = new System.Drawing.Size(34, 22);
-            this.@__codeButton.Text = "Code";
-            this.@__codeButton.ButtonClick += new System.EventHandler(this.@__codeButton_Click);
-            // 
-            // chromeHeadersToJavaScriptObjectToolStripMenuItem
-            // 
-            this.chromeHeadersToJavaScriptObjectToolStripMenuItem.Name = "chromeHeadersToJavaScriptObjectToolStripMenuItem";
-            this.chromeHeadersToJavaScriptObjectToolStripMenuItem.Size = new System.Drawing.Size(298, 22);
-            this.chromeHeadersToJavaScriptObjectToolStripMenuItem.Text = "Chrome Headers To JavaScript Object";
-            this.chromeHeadersToJavaScriptObjectToolStripMenuItem.Click += new System.EventHandler(this.chromeHeadersToJavaScriptObjectToolStripMenuItem_Click);
-            // 
-            // sortDistinctToolStripMenuItem
-            // 
-            this.sortDistinctToolStripMenuItem.Name = "sortDistinctToolStripMenuItem";
-            this.sortDistinctToolStripMenuItem.Size = new System.Drawing.Size(298, 22);
-            this.sortDistinctToolStripMenuItem.Text = "Sort & Distinct";
-            this.sortDistinctToolStripMenuItem.Click += new System.EventHandler(this.sortDistinctToolStripMenuItem_Click);
+            this.@__fileBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.@__fileBox.FormattingEnabled = true;
+            this.@__fileBox.Location = new System.Drawing.Point(0, 0);
+            this.@__fileBox.Name = "__fileBox";
+            this.@__fileBox.Size = new System.Drawing.Size(207, 20);
+            this.@__fileBox.TabIndex = 3;
+            this.@__fileBox.SelectedIndexChanged += new System.EventHandler(this.@__fileBox_SelectedIndexChanged);
             // 
             // __mainForm
             // 
@@ -648,7 +656,6 @@
 
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.ListBox __listBox;
-        private System.Windows.Forms.ComboBox __fileBox;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.TextBox __textBox;
         private System.Windows.Forms.ToolStrip toolStrip2;
@@ -701,6 +708,8 @@
         private System.Windows.Forms.ToolStripSplitButton __codeButton;
         private System.Windows.Forms.ToolStripMenuItem chromeHeadersToJavaScriptObjectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sortDistinctToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeEmptyLinesToolStripMenuItem;
+        private Box __fileBox;
     }
 }
 

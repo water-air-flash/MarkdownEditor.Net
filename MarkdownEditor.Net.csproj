@@ -50,6 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Box.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Extensions\FileExtensions.cs" />
     <Compile Include="Extensions\FormExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />

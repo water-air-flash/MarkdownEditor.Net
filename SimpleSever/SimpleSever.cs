@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Net;
 using System.Threading;
 using System.IO;
@@ -11,13 +9,16 @@ namespace MarkdownEditor.Net
 {
     public class SimpleSever
     {
+        private const int NOTMODIFIED = 304;
+        private const int OK = 200;
+
         private HttpListener _sever;
         private string _port;
         private Thread _thread;
         private string _content;
         private string _directory;
         private List<string> _severed;
-        public SimpleSever(string port,string dir)
+        public SimpleSever(string port, string dir)
         {
             _port = port;
             _directory = dir;
@@ -35,7 +36,7 @@ namespace MarkdownEditor.Net
         {
             _sever = new HttpListener();
 
-            _sever.Prefixes.Add("http://*:8181/");
+            _sever.Prefixes.Add($"http://*:{_port}/");
             _sever.Start();
             while (true)
             {
@@ -50,7 +51,7 @@ namespace MarkdownEditor.Net
                 }
             }
         }
-       private static IDictionary<string, string> _mimeTypeMappings = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase) {
+        private static IDictionary<string, string> _mimeTypeMappings = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase) {
         #region extension to MIME type list
         //{".asf", "video/x-ms-asf"},
         //{".asx", "video/x-ms-asf"},
@@ -127,15 +128,15 @@ namespace MarkdownEditor.Net
         {
             if (_severed.Contains(context.Request.RawUrl))
             {
-                context.Response.StatusCode = (int)HttpStatusCode.NotModified;
+                context.Response.StatusCode = NOTMODIFIED;
                 context.Response.OutputStream.Close();
                 return;
             }
 
-                string filename = context.Request.RawUrl;
+            string filename = context.Request.RawUrl;
             filename = filename.Substring(1);
-        
-        
+
+
 
             filename = Path.Combine(_directory, filename);
 
@@ -159,9 +160,9 @@ namespace MarkdownEditor.Net
                     input.Close();
                     context.Response.OutputStream.Flush();
                     _severed.Add(context.Request.RawUrl);
-                    context.Response.StatusCode = (int)HttpStatusCode.OK;
+                    context.Response.StatusCode = OK;
                 }
-                catch (Exception ex)
+                catch 
                 {
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 }
@@ -185,7 +186,7 @@ namespace MarkdownEditor.Net
                 context.Response.OutputStream.Write(buffer, 0, buffer.Length);
                 context.Response.OutputStream.Flush();
 
-                context.Response.StatusCode = (int)HttpStatusCode.OK;
+                context.Response.StatusCode = OK;
 
 
                 context.Response.OutputStream.Close();
@@ -194,7 +195,7 @@ namespace MarkdownEditor.Net
             {
                 ServeFile(context);
             }
-           
+
         }
     }
 }
