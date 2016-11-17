@@ -10,7 +10,14 @@ using System.Windows.Forms;
 
 namespace MarkdownEditor.Net
 {
-    public partial class Box : ComboBox
+    public class Render : TheArtOfDev.HtmlRenderer.WinForms.HtmlPanel
+    {
+        public Render()
+        {
+
+        }
+    }
+    public class Box : ComboBox
     {
         private int _lastedSelectedIndex = -1;
         private Func<int,bool> _beforeCommitChange;

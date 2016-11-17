@@ -22,10 +22,10 @@ namespace MarkdownEditor.Net
         readonly string _markdownPath;
         readonly string _host;
         MarkdownPipeline _pipeline;
-        SimpleSever _sever;
         string _currentKey = null;
         bool _previewEnable;
         bool _changed;
+        int _scroll;
 
         Dictionary<string, string> _dic;
         #endregion
@@ -96,6 +96,7 @@ namespace MarkdownEditor.Net
         }
         private void Initialize()
         {
+            __hmtPanel.BaseStylesheet = "datas\\resource\\style.css".GetApplicationPath().FileToString();
             _appPath.CreateDirectoryIfNotExist();
             _translatePath.CreateDirectoryIfNotExist();
             _markdownPath.CreateDirectoryIfNotExist();
@@ -103,10 +104,7 @@ namespace MarkdownEditor.Net
             #region MarkDig
             _pipeline = new MarkdownPipelineBuilder().UseAutoLinks().UsePipeTables().UseAutoIdentifiers().Build();
             #endregion
-            #region WebBrowser
-            NativeMethods.CoInternetSetFeatureEnabled(NativeMethods.FEATURE_DISABLE_NAVIGATION_SOUNDS, NativeMethods.SET_FEATURE_ON_PROCESS, true);
-            __webBrowser.ScriptErrorsSuppressed = true;
-            #endregion
+        
 
             __fileBox.BeforeCommitChange = (i) =>
               {
@@ -191,8 +189,8 @@ namespace MarkdownEditor.Net
             }
             if (_previewEnable)
             {
-                _sever.SetContent(RenderMarkdown(__textBox.Text));
-                __webBrowser.Navigate(_host);
+                __hmtPanel.Text = RenderMarkdown(__textBox.Text);
+                 __hmtPanel.AutoScrollPosition = new Point(0, _scroll);
                 __textBox.Focus();
             }
         }
@@ -441,7 +439,6 @@ namespace MarkdownEditor.Net
         #region Form
         private void __mainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _sever.Stop();
         }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -454,7 +451,6 @@ namespace MarkdownEditor.Net
         private void __mainForm_Load(object sender, EventArgs e)
         {
             _appPath.CombinePath("resource").CreateDirectoryIfNotExist();
-            _sever = new SimpleSever(_host.Split(':').Last(), _appPath.CombinePath("resource"));
         }
         #endregion
         #region Under Find Button
@@ -519,6 +515,11 @@ namespace MarkdownEditor.Net
         {
             ResetEverything();
            
+        }
+
+        private void __hmtPanel_Scroll(object sender, ScrollEventArgs e)
+        {
+            _scroll = e.NewValue;
         }
     }
 }

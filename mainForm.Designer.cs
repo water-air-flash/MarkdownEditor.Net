@@ -33,7 +33,6 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.@__listBox = new System.Windows.Forms.ListBox();
             this.@__transTextBox = new System.Windows.Forms.TextBox();
-            this.@__fileBox = new MarkdownEditor.Net.Box();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.@__textBox = new System.Windows.Forms.TextBox();
             this.@__contextMenu2 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -54,6 +53,7 @@
             this.@__appButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.@__newButton = new System.Windows.Forms.ToolStripSplitButton();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.@__saveButton = new System.Windows.Forms.ToolStripSplitButton();
             this.changeNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -84,10 +84,10 @@
             this.clearnSerialNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.@__webBrowser = new System.Windows.Forms.WebBrowser();
+            this.@__hmtPanel = new TheArtOfDev.HtmlRenderer.WinForms.HtmlPanel();
             this.@__contextMenu1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.createToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.@__fileBox = new MarkdownEditor.Net.Box();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -141,16 +141,6 @@
             this.@__transTextBox.Size = new System.Drawing.Size(207, 122);
             this.@__transTextBox.TabIndex = 2;
             // 
-            // __fileBox
-            // 
-            this.@__fileBox.Dock = System.Windows.Forms.DockStyle.Top;
-            this.@__fileBox.FormattingEnabled = true;
-            this.@__fileBox.Location = new System.Drawing.Point(0, 0);
-            this.@__fileBox.Name = "__fileBox";
-            this.@__fileBox.Size = new System.Drawing.Size(207, 20);
-            this.@__fileBox.TabIndex = 3;
-            this.@__fileBox.SelectedIndexChanged += new System.EventHandler(this.@__fileBox_SelectedIndexChanged);
-            // 
             // splitContainer2
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -166,7 +156,7 @@
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.@__webBrowser);
+            this.splitContainer2.Panel2.Controls.Add(this.@__hmtPanel);
             this.splitContainer2.Panel2Collapsed = true;
             this.splitContainer2.Size = new System.Drawing.Size(895, 500);
             this.splitContainer2.SplitterDistance = 509;
@@ -355,6 +345,13 @@
             this.@__newButton.Size = new System.Drawing.Size(34, 22);
             this.@__newButton.Text = "New";
             this.@__newButton.ButtonClick += new System.EventHandler(this.@__newButton_ButtonClick);
+            // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.newToolStripMenuItem.Text = "New Document";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // __saveButton
             // 
@@ -611,14 +608,20 @@
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // __webBrowser
+            // __hmtPanel
             // 
-            this.@__webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.@__webBrowser.Location = new System.Drawing.Point(0, 0);
-            this.@__webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.@__webBrowser.Name = "__webBrowser";
-            this.@__webBrowser.Size = new System.Drawing.Size(96, 100);
-            this.@__webBrowser.TabIndex = 0;
+            this.@__hmtPanel.AutoScroll = true;
+            this.@__hmtPanel.AutoScrollMinSize = new System.Drawing.Size(382, 20);
+            this.@__hmtPanel.BackColor = System.Drawing.SystemColors.Window;
+            this.@__hmtPanel.BaseStylesheet = null;
+            this.@__hmtPanel.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.@__hmtPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.@__hmtPanel.Location = new System.Drawing.Point(0, 0);
+            this.@__hmtPanel.Name = "__hmtPanel";
+            this.@__hmtPanel.Size = new System.Drawing.Size(382, 500);
+            this.@__hmtPanel.TabIndex = 1;
+            this.@__hmtPanel.Text = "htmlPanel1";
+            this.@__hmtPanel.Scroll += new System.Windows.Forms.ScrollEventHandler(this.@__hmtPanel_Scroll);
             // 
             // __contextMenu1
             // 
@@ -634,12 +637,15 @@
             this.createToolStripMenuItem.Text = "Create";
             this.createToolStripMenuItem.Click += new System.EventHandler(this.createToolStripMenuItem_Click);
             // 
-            // newToolStripMenuItem
+            // __fileBox
             // 
-            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.newToolStripMenuItem.Text = "New Document";
-            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
+            this.@__fileBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.@__fileBox.FormattingEnabled = true;
+            this.@__fileBox.Location = new System.Drawing.Point(0, 0);
+            this.@__fileBox.Name = "__fileBox";
+            this.@__fileBox.Size = new System.Drawing.Size(207, 20);
+            this.@__fileBox.TabIndex = 3;
+            this.@__fileBox.SelectedIndexChanged += new System.EventHandler(this.@__fileBox_SelectedIndexChanged);
             // 
             // __mainForm
             // 
@@ -680,7 +686,6 @@
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.WebBrowser __webBrowser;
         private System.Windows.Forms.ToolStripButton __appButton;
         private System.Windows.Forms.ContextMenuStrip __contextMenu1;
         private System.Windows.Forms.ToolStripMenuItem createToolStripMenuItem;
@@ -731,6 +736,7 @@
         private Box __fileBox;
         private System.Windows.Forms.ToolStripMenuItem clearnSerialNameToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
+        private TheArtOfDev.HtmlRenderer.WinForms.HtmlPanel __hmtPanel;
     }
 }
 
