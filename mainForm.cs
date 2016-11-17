@@ -507,8 +507,59 @@ namespace MarkdownEditor.Net
         private void __mainForm_Load(object sender, EventArgs e)
         {
             _appPath.CombinePath("resource").CreateDirectoryIfNotExist();
-            _sever = new SimpleSever(_host.Split(':').Last(),_appPath.CombinePath("resource"));
+            _sever = new SimpleSever(_host.Split(':').Last(), _appPath.CombinePath("resource"));
 
+        }
+
+        private void keepMatchesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            if (!string.IsNullOrWhiteSpace(__findBox.Text))
+            {
+                var str = __textBox.Text.CollectMatches(__findBox.Text).Distinct().OrderBy(i => i).Flat();
+                if (str != null)
+                {
+                    __textBox.Text = str;
+                }
+            }
+
+        }
+
+        private void findToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var str = string.IsNullOrWhiteSpace(__textBox.SelectedText) ? __findBox.Text : __textBox.SelectedText.Trim();
+
+            var pos = __textBox.Text.IndexOf(str, __textBox.SelectionStart + str.Length);
+
+            if (pos != -1)
+            {
+                __textBox.SelectionStart = pos;
+                __textBox.SelectionLength = str.Length;
+
+                __textBox.ScrollToCaret();
+            }
+        }
+
+        private void chromeHeadersToJavaScriptObjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(__textBox.Text))
+            {
+                var s = new char[] { ':' };
+                __textBox.Text = __textBox.Lines.Select((i) =>
+                  {
+                      var ls = i.Split(s, 2);
+                      return $"\"{ls[0]}\":\"{ ls[1]}\",";
+                  }).Flat();
+            }
+        }
+
+        private void sortDistinctToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            if (!string.IsNullOrWhiteSpace(__textBox.Text))
+            {
+                __textBox.Text = __textBox.Lines.Distinct().OrderBy(i => i).Flat();
+            }
         }
     }
 }

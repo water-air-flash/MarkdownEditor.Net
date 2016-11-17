@@ -10,7 +10,29 @@ namespace MarkdownEditor.Net
    public static  class StringExtensions
     {
        
+        public static string Flat(this IEnumerable<string> ls)
+        {
+            if (ls == null)
+                return null;
+            return String.Join(Environment.NewLine, ls);
+        }
+        public static string[] CollectMatches(this string v,string reg)
+        {
+            var matches = Regex.Matches(v, reg);
 
+            if (matches.Count > 0)
+            {
+                string[] rs = new string[matches.Count];
+
+
+                for (int i = 0; i < matches.Count; i++)
+                {
+                  rs[i]=  matches[i].Value;
+                }
+                return rs;
+            }
+            return null;
+        }
 
 
         public static List<string> CollectMarks(this string v)
