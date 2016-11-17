@@ -154,6 +154,7 @@ namespace MarkdownEditor.Net
             __textBox.Text = null;
             _currentKey = null;
             _dic = null;
+            __listBox.Items.Clear();
             _changed = false;
         }
         void SaveWithoutUpdate(string fileName)
@@ -505,8 +506,19 @@ namespace MarkdownEditor.Net
             __textBox.Text = __textBox.Text.Lines().Flat();
         }
 
+
         #endregion
 
+        private void clearnSerialNameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (__textBox.Text.Trim().IsDirectory())
+                __textBox.Text.Trim().KeepFileNameMeasureByRegex("S[0-9]+E[0-9]+");
+        }
 
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ResetEverything();
+           
+        }
     }
 }

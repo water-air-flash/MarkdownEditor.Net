@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Linq;
 using System.IO.Compression;
 
@@ -21,6 +22,24 @@ namespace MarkdownEditor.Net
                 File.Move(i, p.CombinePath(Path.GetFileName(i)));
             });
            
+        }
+        public static void KeepFileNameMeasureByRegex(this string dir,string regex)
+        {
+
+            var re = new Regex(regex);
+
+            Directory.GetFiles(dir,"*",SearchOption.AllDirectories).AsParallel().ForAll((i) =>
+            {
+                var fn = Path.GetFileNameWithoutExtension(i);
+                if (re.IsMatch(fn))
+                {
+                    fn = Path.Combine(Path.GetDirectoryName(i), re.Match(fn).Value + Path.GetExtension(i));
+                    if (i!=fn&&!fn.IsFile())
+                        File.Move(i, fn);
+                }
+               
+            });
+
         }
 
         #region ZIP

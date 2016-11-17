@@ -23,6 +23,7 @@ namespace MarkdownEditor.Net
         {
             _port = port;
             _directory = dir;
+            _encoding = new UTF8Encoding();
             _thread = new Thread(this.Listen);
             _severed = new List<string>();
             _thread.Start();
