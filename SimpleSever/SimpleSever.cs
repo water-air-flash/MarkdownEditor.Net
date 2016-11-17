@@ -18,6 +18,7 @@ namespace MarkdownEditor.Net
         private string _content;
         private string _directory;
         private List<string> _severed;
+        private UTF8Encoding _encoding;
         public SimpleSever(string port, string dir)
         {
             _port = port;
@@ -135,9 +136,6 @@ namespace MarkdownEditor.Net
 
             string filename = context.Request.RawUrl;
             filename = filename.Substring(1);
-
-
-
             filename = Path.Combine(_directory, filename);
 
             if (File.Exists(filename))
@@ -149,9 +147,9 @@ namespace MarkdownEditor.Net
                     //Adding permanent http response headers
                     string mime;
                     context.Response.ContentType = _mimeTypeMappings.TryGetValue(Path.GetExtension(filename), out mime) ? mime : "application/octet-stream";
-                    context.Response.ContentLength64 = input.Length;
-                    context.Response.AddHeader("Date", DateTime.Now.ToString("r"));
-                    context.Response.AddHeader("Last-Modified", System.IO.File.GetLastWriteTime(filename).ToString("r"));
+                    //context.Response.ContentLength64 = input.Length;
+                    //context.Response.AddHeader("Date", DateTime.Now.ToString("r"));
+                    //context.Response.AddHeader("Last-Modified", System.IO.File.GetLastWriteTime(filename).ToString("r"));
 
                     byte[] buffer = new byte[1024 * 16];
                     int nbytes;
@@ -182,13 +180,10 @@ namespace MarkdownEditor.Net
 
             if (req.Length == 0)
             {
-                var buffer = new UTF8Encoding().GetBytes(_content);
+                var buffer = _encoding.GetBytes(_content);
                 context.Response.OutputStream.Write(buffer, 0, buffer.Length);
                 context.Response.OutputStream.Flush();
-
                 context.Response.StatusCode = OK;
-
-
                 context.Response.OutputStream.Close();
             }
             else
