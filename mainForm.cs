@@ -104,7 +104,7 @@ namespace MarkdownEditor.Net
             #region MarkDig
             _pipeline = new MarkdownPipelineBuilder().UseAutoLinks().UsePipeTables().UseAutoIdentifiers().Build();
             #endregion
-        
+
 
             __fileBox.BeforeCommitChange = (i) =>
               {
@@ -190,7 +190,7 @@ namespace MarkdownEditor.Net
             if (_previewEnable)
             {
                 __hmtPanel.Text = RenderMarkdown(__textBox.Text);
-                 __hmtPanel.AutoScrollPosition = new Point(0, _scroll);
+                __hmtPanel.AutoScrollPosition = new Point(0, _scroll);
                 __textBox.Focus();
             }
         }
@@ -514,12 +514,73 @@ namespace MarkdownEditor.Net
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ResetEverything();
-           
+
         }
 
-        private void __hmtPanel_Scroll(object sender, ScrollEventArgs e)
+
+        private void removeFileNameMarksToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _scroll = e.NewValue;
+            var marks = __textBox.Text.CollectMarks();
+
+            if (marks.Count > 2)
+            {
+                var dir = marks[0];
+                var reg = marks[1];
+
+                if (dir.IsDirectory())
+                {
+                    dir.RemoveFileNameMeasureByRegex(reg);
+                }
+            }
+        }
+
+        private void __mainForm_SizeChanged(object sender, EventArgs e)
+        {
+            __hmtPanel.Invalidate();
+        }
+
+        private void _scrollMarkButton_Click(object sender, EventArgs e)
+        {
+            _scroll = __hmtPanel.VerticalScroll.Value;
+        }
+
+        private void _formatButton_Click(object sender, EventArgs e)
+        {
+            var pos = __textBox.SelectionStart;
+            var len = __textBox.Lines.Length;
+            var builder = new StringBuilder(__textBox.Text.Length);
+
+            for (int i = 0; i < len; i++)
+            {
+                if (i+1<len&&string.IsNullOrEmpty(__textBox.Lines[i]) && string.IsNullOrWhiteSpace(__textBox.Lines[i + 1]))
+                {
+                    continue;
+                }
+                else
+                {
+                    builder.Append(__textBox.Lines[i]).Append(Environment.NewLine);
+                }
+            }
+           
+            __textBox.Text = builder.ToString();
+            __textBox.SelectionStart = pos;
+            __textBox.ScrollToCaret();
+
+        }
+
+        private void hTMLAndBrowseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            if (_currentKey != null)
+            {
+                var filename = "HTM".GetApplicationPath();
+                filename.CreateDirectoryIfNotExist();
+                filename = filename.CombinePath(_currentKey.GetValidFileName() + ".htm");
+
+                filename.StringToFile(Markdown.ToHtml(__textBox.Text,_pipeline));
+
+                System.Diagnostics.Process.Start("chrome", $"\"{filename}\"");
+            }
         }
     }
 }

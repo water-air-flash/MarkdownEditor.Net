@@ -41,7 +41,24 @@ namespace MarkdownEditor.Net
             });
 
         }
+        public static void RemoveFileNameMeasureByRegex(this string dir, string regex,string replace="")
+        {
 
+            var re = new Regex(regex);
+
+            Directory.GetFiles(dir, "*", SearchOption.AllDirectories).AsParallel().ForAll((i) =>
+            {
+                var fn = Path.GetFileNameWithoutExtension(i);
+                if (re.IsMatch(fn))
+                {
+                    fn = Path.Combine(Path.GetDirectoryName(i), re.Replace(fn,replace) + Path.GetExtension(i));
+                    if (i != fn && !fn.IsFile())
+                        File.Move(i, fn);
+                }
+
+            });
+
+        }
         #region ZIP
 
         public static void ExtractZipArchive(this string  fileName,Func<string,bool> filter,string dir)
