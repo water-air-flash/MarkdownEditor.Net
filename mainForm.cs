@@ -20,7 +20,7 @@ namespace MarkdownEditor.Net
         readonly string _appPath;
         readonly string _translatePath;
         readonly string _markdownPath;
-        readonly string _host;
+        readonly string _achieve;
         MarkdownPipeline _pipeline;
         string _currentKey = null;
         bool _previewEnable;
@@ -32,11 +32,11 @@ namespace MarkdownEditor.Net
         public __mainForm()
         {
             InitializeComponent();
-            _host = "http://127.0.0.1:8181";
             //.GetApplicationPath();
             _title = "Markdown Editor";
-            _template = string.Format("<!DOCTYPE html>\n<html>\n<head>\n <title></title>\n <meta charset=\"utf-8\" />\n <link href=\"{0}\" rel=\"stylesheet\" />\n</head><body>\r\n\r\n\r\n", "style.css");
+            _template = string.Format("<!DOCTYPE html>\n<html>\n<head>\n <title></title>\n <meta charset=\"utf-8\" />\n <link href=\"{0}\" rel=\"stylesheet\" />\n</head><body>\r\n\r\n\r\n", "../resource/style.css");
             _appPath = "datas".GetApplicationPath();
+            _achieve = _appPath.CombinePath("achieve");
             _translatePath = _appPath.CombinePath("translat");
             _markdownPath = _appPath.CombinePath("markdown");
             Initialize();
@@ -96,10 +96,11 @@ namespace MarkdownEditor.Net
         }
         private void Initialize()
         {
-            __hmtPanel.BaseStylesheet = "datas\\resource\\style.css".GetApplicationPath().FileToString();
+            //__hmtPanel.BaseStylesheet = "datas\\resource\\style.css".GetApplicationPath().FileToString();
             _appPath.CreateDirectoryIfNotExist();
             _translatePath.CreateDirectoryIfNotExist();
             _markdownPath.CreateDirectoryIfNotExist();
+            _achieve.CreateDirectoryIfNotExist();
             RefreshFileBox();
             #region MarkDig
             _pipeline = new MarkdownPipelineBuilder().UseAutoLinks().UsePipeTables().UseAutoIdentifiers().Build();
@@ -187,12 +188,7 @@ namespace MarkdownEditor.Net
             {
                 this.Text += "*";
             }
-            if (_previewEnable)
-            {
-                __hmtPanel.Text = RenderMarkdown(__textBox.Text);
-                __hmtPanel.AutoScrollPosition = new Point(0, _scroll);
-                __textBox.Focus();
-            }
+           
         }
         #endregion
         private void __appButton_Click(object sender, EventArgs e)
@@ -233,6 +229,12 @@ namespace MarkdownEditor.Net
             }
         }
         #region Under Save Button
+
+        private void hTMLToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(Markdown.ToHtml(__textBox.Text, _pipeline));
+
+        }
         private void __saveButton_ButtonClick(object sender, EventArgs e)
         {
             Save();
@@ -345,6 +347,25 @@ namespace MarkdownEditor.Net
         }
         #endregion
         #region Under PreviewButton
+        private void __viewButton_ButtonClick(object sender, EventArgs e)
+        {
+            if (_currentKey != null)
+            {
+                if (string.IsNullOrEmpty(__fileBox.Text) || string.IsNullOrEmpty(__textBox.Text)) return;
+                if (_currentKey != null)
+                {
+
+                    var fn = _achieve.CombinePath(__fileBox.Text);
+                    fn.CreateDirectoryIfNotExist();
+                    fn = fn.CombinePath(_currentKey.GetValidFileName() + ".html");
+                    fn.StringToFile(RenderMarkdown(__textBox.Text));
+
+                    System.Diagnostics.Process.Start("chrome", $"\"{fn}\"");
+
+                }
+
+            }
+        }
         private void listToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (listToolStripMenuItem.Checked)
@@ -356,19 +377,7 @@ namespace MarkdownEditor.Net
                 splitContainer1.Panel1Collapsed = true;
             }
         }
-        private void previewToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (previewToolStripMenuItem.Checked)
-            {
-                _previewEnable = true;
-                splitContainer2.Panel2Collapsed = false;
-            }
-            else
-            {
-                _previewEnable = false;
-                splitContainer2.Panel2Collapsed = true;
-            }
-        }
+       
         #endregion
         #region Under List Button
         private void __listButton_ButtonClick(object sender, EventArgs e)
@@ -454,6 +463,34 @@ namespace MarkdownEditor.Net
         }
         #endregion
         #region Under Find Button
+        private void windowPreferNewLineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            __textBox.Text = __textBox.Lines.Flat();
+        }
+
+        private void removeNonneedLinesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var pos = __textBox.SelectionStart;
+            var len = __textBox.Lines.Length;
+            var builder = new StringBuilder(__textBox.Text.Length);
+
+            for (int i = 0; i < len; i++)
+            {
+                if (i + 1 < len && string.IsNullOrEmpty(__textBox.Lines[i]) && string.IsNullOrWhiteSpace(__textBox.Lines[i + 1]))
+                {
+                    continue;
+                }
+                else
+                {
+                    builder.Append(__textBox.Lines[i]).Append(Environment.NewLine);
+                }
+            }
+
+            __textBox.Text = builder.ToString();
+            __textBox.SelectionStart = pos;
+            __textBox.ScrollToCaret();
+
+        }
         private void keepMatchesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(__findBox.Text))
@@ -502,14 +539,44 @@ namespace MarkdownEditor.Net
             __textBox.Text = __textBox.Text.Lines().Flat();
         }
 
+        private void codeReferenceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            __textBox.SelectedText = $" [`{__textBox.SelectedText.Trim()}`]()： ";
+        }
+        private void escapeForJSONToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            __textBox.Text = __textBox.Text.JavaScriptStringEncode();
+        }
 
+        private void visualStudio2015JavaScriptCodeSnippetCLIPBOARDToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var filename = "app.json".GetApplicationPath();
+
+                var obj = new JavaScriptSerializer().Deserialize<dynamic>(filename.FileToString());
+
+                string dir = obj["js_snippet_dir"];
+                string temlate = obj["snippet_template"];
+                if (dir.IsDirectory())
+                {
+                    var content = Clipboard.GetText();
+                    var shortcut = content.Trim().Lines().First().Split(' ').Last().GetValidFileName();
+                    var fn = dir.CombinePath(shortcut + ".snippet");
+                    content = string.Format(temlate, shortcut, content.Trim().Lines().Skip(1).Flat(), "JavaScript");
+                    fn.StringToFile(content);
+                }
+            }
+            catch (Exception exc)
+            {
+
+                MessageBox.Show(exc.Message);
+            }
+
+        }
         #endregion
 
-        private void clearnSerialNameToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (__textBox.Text.Trim().IsDirectory())
-                __textBox.Text.Trim().KeepFileNameMeasureByRegex("S[0-9]+E[0-9]+");
-        }
+
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -534,38 +601,11 @@ namespace MarkdownEditor.Net
             }
         }
 
-        private void __mainForm_SizeChanged(object sender, EventArgs e)
-        {
-            __hmtPanel.Invalidate();
-        }
 
-        private void _scrollMarkButton_Click(object sender, EventArgs e)
-        {
-            _scroll = __hmtPanel.VerticalScroll.Value;
-        }
-
+      
         private void _formatButton_Click(object sender, EventArgs e)
         {
-            var pos = __textBox.SelectionStart;
-            var len = __textBox.Lines.Length;
-            var builder = new StringBuilder(__textBox.Text.Length);
-
-            for (int i = 0; i < len; i++)
-            {
-                if (i+1<len&&string.IsNullOrEmpty(__textBox.Lines[i]) && string.IsNullOrWhiteSpace(__textBox.Lines[i + 1]))
-                {
-                    continue;
-                }
-                else
-                {
-                    builder.Append(__textBox.Lines[i]).Append(Environment.NewLine);
-                }
-            }
-           
-            __textBox.Text = builder.ToString();
-            __textBox.SelectionStart = pos;
-            __textBox.ScrollToCaret();
-
+            
         }
 
         private void hTMLAndBrowseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -582,5 +622,51 @@ namespace MarkdownEditor.Net
                 System.Diagnostics.Process.Start("chrome", $"\"{filename}\"");
             }
         }
+
+         
+
+        private void keepMatchFileNameMarksToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var marks = __textBox.Text.CollectMarks();
+
+            if (marks.Count > 2)
+            {
+                var dir = marks[0];
+                var reg = marks[1];
+
+                if (dir.IsDirectory())
+                {
+                    dir .KeepFileNameMeasureByRegex(reg);
+                }
+            }
+        }
+
+       
+
+        private async void testServerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var msg =await "http://127.0.0.1:18080".Request("{1:1}");
+            MessageBox.Show(msg);
+        }
+
+        private void pasteToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            var t = Clipboard.GetText();
+            var ls = t.Lines().Select(i => i.Trim().TrimStart(new char[] { ' ', '\t', '*' }));
+            __textBox.SelectedText = ls.Flat(" ");
+        }
+
+        private void chromeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var str = __textBox.GetSelectLine();
+
+            var url = System.Text.RegularExpressions.Regex.Match(str,@"(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&amp;%\$#_]*)?").Value;
+            if (!string.IsNullOrWhiteSpace(url))
+            {
+                System.Diagnostics.Process.Start("chrome", url);
+            }
+        }
+
+
     }
 }

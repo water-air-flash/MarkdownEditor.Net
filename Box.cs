@@ -10,13 +10,7 @@ using System.Windows.Forms;
 
 namespace MarkdownEditor.Net
 {
-    public class Render : TheArtOfDev.HtmlRenderer.WinForms.HtmlPanel
-    {
-        public Render()
-        {
-
-        }
-    }
+   
     public class Box : ComboBox
     {
         private int _lastedSelectedIndex = -1;
